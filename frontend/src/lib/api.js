@@ -53,6 +53,28 @@ export async function login(username, password) {
   return data;
 }
 
+export async function register({ username, email, password }) {
+  const response = await fetch(`${API_BASE_URL}/api/users/register/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username,
+      email,
+      password,
+      preferred_currency: "BRL",
+      timezone: "America/Sao_Paulo",
+    }),
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    const message = data.username?.[0] || data.email?.[0] || data.password?.[0] || "Falha ao cadastrar";
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
 export async function refreshToken() {
   const refresh = getRefreshToken();
   if (!refresh) return false;

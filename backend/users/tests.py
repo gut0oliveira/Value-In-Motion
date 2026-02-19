@@ -27,6 +27,20 @@ class UsersEndpointsTests(APITestCase):
         response = self.client.get(reverse("users_overview"))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
+    def test_register_user_creates_user_and_profile(self):
+        self.client.force_authenticate(user=None)
+        payload = {
+            "username": "newuser",
+            "email": "newuser@example.com",
+            "password": "StrongPass123!",
+            "preferred_currency": "BRL",
+            "timezone": "America/Sao_Paulo",
+        }
+        response = self.client.post(reverse("users_register"), payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertTrue(get_user_model().objects.filter(username="newuser").exists())
+        self.assertTrue(UserProfile.objects.filter(user__username="newuser").exists())
+
     def test_list_profiles_returns_only_authenticated_user(self):
         response = self.client.get(reverse("userprofile_list_create"))
         self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import { isAuthenticated } from "./lib/auth";
 
 export default function App() {
@@ -10,6 +11,10 @@ export default function App() {
       <Route
         path="/login"
         element={isAuthenticated() ? <Navigate to="/" replace /> : <LoginPage />}
+      />
+      <Route
+        path="/register"
+        element={isAuthenticated() ? <Navigate to="/" replace /> : <RegisterPage />}
       />
       <Route
         path="/"
