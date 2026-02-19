@@ -30,7 +30,9 @@ class UsersEndpointsTests(APITestCase):
     def test_register_user_creates_user_and_profile(self):
         self.client.force_authenticate(user=None)
         payload = {
+            "first_name": "Augusto",
             "username": "newuser",
+            "last_name": "Silva",
             "email": "newuser@example.com",
             "password": "StrongPass123!",
             "preferred_currency": "BRL",
@@ -40,6 +42,17 @@ class UsersEndpointsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(get_user_model().objects.filter(username="newuser").exists())
         self.assertTrue(UserProfile.objects.filter(user__username="newuser").exists())
+        self.assertEqual(get_user_model().objects.get(username="newuser").first_name, "Augusto")
+        self.assertEqual(get_user_model().objects.get(username="newuser").last_name, "Silva")
+
+    def test_current_user_endpoint_returns_full_name_fields(self):
+        self.user.first_name = "Augusto"
+        self.user.last_name = "Oliveira"
+        self.user.save()
+        response = self.client.get(reverse("users_me"))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["first_name"], "Augusto")
+        self.assertEqual(response.data["last_name"], "Oliveira")
 
     def test_list_profiles_returns_only_authenticated_user(self):
         response = self.client.get(reverse("userprofile_list_create"))

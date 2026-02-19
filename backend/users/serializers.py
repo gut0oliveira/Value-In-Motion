@@ -5,7 +5,9 @@ from .models import UserProfile
 
 
 class RegisterSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=150)
     username = serializers.CharField(max_length=150)
+    last_name = serializers.CharField(max_length=150)
     email = serializers.EmailField(required=False, allow_blank=True)
     password = serializers.CharField(write_only=True, min_length=8)
     preferred_currency = serializers.CharField(max_length=3, required=False, default="BRL")

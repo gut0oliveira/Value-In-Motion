@@ -1,27 +1,33 @@
-import { clearTokens, getAccessToken, getRefreshToken, saveTokens } from "./auth";
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  saveTokens,
+  saveUsername,
+} from "./auth";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 
-async function request(path, options = {}) {
+async function requisicao(caminho, opcoes = {}) {
   const token = getAccessToken();
   const headers = {
     "Content-Type": "application/json",
-    ...(options.headers || {}),
+    ...(opcoes.headers || {}),
   };
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
+  const response = await fetch(`${API_BASE_URL}${caminho}`, {
+    ...opcoes,
     headers,
   });
 
   if (response.status === 401 && getRefreshToken()) {
-    const refreshed = await refreshToken();
+    const refreshed = await atualizarToken();
     if (refreshed) {
-      return request(path, options);
+      return requisicao(caminho, opcoes);
     }
   }
 
@@ -37,7 +43,7 @@ async function request(path, options = {}) {
   return response.json();
 }
 
-export async function login(username, password) {
+export async function fazerLogin(username, password, lastName = "") {
   const response = await fetch(`${API_BASE_URL}/api/auth/token/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -50,15 +56,24 @@ export async function login(username, password) {
 
   const data = await response.json();
   saveTokens(data);
+  try {
+    const usuario = await requisicao("/api/usuarios/eu/");
+    saveUsername(usuario.first_name || username, usuario.last_name || lastName);
+  } catch {
+    saveUsername(username, lastName);
+  }
   return data;
 }
+export const login = fazerLogin;
 
-export async function register({ username, email, password }) {
-  const response = await fetch(`${API_BASE_URL}/api/users/register/`, {
+export async function cadastrarUsuario({ first_name, username, last_name, email, password }) {
+  const response = await fetch(`${API_BASE_URL}/api/usuarios/cadastro/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
+      first_name,
       username,
+      last_name,
       email,
       password,
       preferred_currency: "BRL",
@@ -74,8 +89,9 @@ export async function register({ username, email, password }) {
 
   return response.json();
 }
+export const register = cadastrarUsuario;
 
-export async function refreshToken() {
+export async function atualizarToken() {
   const refresh = getRefreshToken();
   if (!refresh) return false;
 
@@ -99,10 +115,27 @@ export function logout() {
   clearTokens();
 }
 
-export function fetchFinanceOverview() {
-  return request("/api/finance/");
+export const sair = logout;
+
+export function buscarVisaoFinancas() {
+  return requisicao("/api/financas/");
 }
 
-export function fetchAccounts() {
-  return request("/api/finance/accounts/");
+export function buscarContas() {
+  return requisicao("/api/financas/contas/");
+}
+
+export function buscarCategorias() {
+  return requisicao("/api/financas/categorias/");
+}
+
+export function buscarTransacoes() {
+  return requisicao("/api/financas/transacoes/");
+}
+
+export function criarTransacao(payload) {
+  return requisicao("/api/financas/transacoes/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
 }

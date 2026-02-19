@@ -16,8 +16,12 @@ def api_overview(request):
                 "health": "/api/health/",
                 "auth_token": "/api/auth/token/",
                 "auth_refresh": "/api/auth/token/refresh/",
+                "token_autenticacao": "/api/autenticacao/token/",
+                "token_refresh_autenticacao": "/api/autenticacao/token/refresh/",
                 "users": "/api/users/",
+                "usuarios": "/api/usuarios/",
                 "finance": "/api/finance/",
+                "financas": "/api/financas/",
             },
         }
     )

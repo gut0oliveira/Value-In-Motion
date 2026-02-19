@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import UserProfile
@@ -16,6 +17,7 @@ def users_overview(request):
             "endpoints": {
                 "register": "/api/users/register/",
                 "profiles": "/api/users/profiles/",
+                "me": "/api/users/me/",
             },
         }
     )
@@ -30,10 +32,27 @@ def register_user(request):
     return Response(
         {
             "id": user.id,
+            "first_name": user.first_name,
             "username": user.username,
+            "last_name": user.last_name,
             "email": user.email,
         },
         status=201,
+    )
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    user = request.user
+    return Response(
+        {
+            "id": user.id,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "username": user.username,
+            "email": user.email,
+        }
     )
 
 

@@ -4,7 +4,9 @@ import { login, register } from "../lib/api";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
   const [username, setUsername] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -22,8 +24,8 @@ export default function RegisterPage() {
 
     setIsSubmitting(true);
     try {
-      await register({ username, email, password });
-      await login(username, password);
+      await register({ first_name: firstName, username, last_name: lastName, email, password });
+      await login(username, password, lastName);
       navigate("/", { replace: true });
     } catch (err) {
       setError(err.message);
@@ -41,11 +43,31 @@ export default function RegisterPage() {
 
         <form className="mt-7 space-y-4" onSubmit={handleSubmit}>
           <label className="block text-sm font-medium text-slate-700">
+            Nome
+            <input
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </label>
+
+          <label className="block text-sm font-medium text-slate-700">
             Usuario
             <input
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </label>
+
+          <label className="block text-sm font-medium text-slate-700">
+            último nome
+            <input
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               required
             />
           </label>

@@ -38,7 +38,7 @@ export default function LoginPage() {
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="seu usuario"
+              placeholder="Seu usuário"
               required
             />
           </label>
@@ -50,7 +50,7 @@ export default function LoginPage() {
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="sua senha"
+              placeholder="Sua senha"
               required
             />
           </label>
