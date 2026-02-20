@@ -2,9 +2,10 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Account, Category, CreditCard, Transaction
+from .models import Account, CardPurchase, Category, CreditCard, Transaction
 from .serializers import (
     AccountSerializer,
+    CardPurchaseSerializer,
     CategorySerializer,
     CreditCardSerializer,
     TransactionSerializer,
@@ -21,6 +22,7 @@ def finance_overview(request):
                 "categories": "/api/finance/categories/",
                 "transactions": "/api/finance/transactions/",
                 "credit_cards": "/api/finance/credit-cards/",
+                "card_purchases": "/api/finance/card-purchases/",
             },
         }
     )
@@ -64,7 +66,7 @@ class TransactionListCreateView(generics.ListCreateAPIView):
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
-        return Transaction.objects.select_related("owner", "account", "category").filter(
+        return Transaction.objects.select_related("owner", "account", "credit_card", "category").filter(
             owner=self.request.user
         )
 
@@ -76,7 +78,7 @@ class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TransactionSerializer
 
     def get_queryset(self):
-        return Transaction.objects.select_related("owner", "account", "category").filter(
+        return Transaction.objects.select_related("owner", "account", "credit_card", "category").filter(
             owner=self.request.user
         )
 
@@ -96,3 +98,30 @@ class CreditCardDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return CreditCard.objects.select_related("owner").filter(owner=self.request.user)
+
+
+class CardPurchaseListCreateView(generics.ListCreateAPIView):
+    serializer_class = CardPurchaseSerializer
+
+    def get_queryset(self):
+        return CardPurchase.objects.select_related("owner", "credit_card", "category").prefetch_related(
+            "installments"
+        ).filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class CardPurchaseDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CardPurchaseSerializer
+
+    def get_queryset(self):
+        return CardPurchase.objects.select_related("owner", "credit_card", "category").prefetch_related(
+            "installments"
+        ).filter(owner=self.request.user)
+
+    def perform_destroy(self, instance):
+        transactions = [item.transaction for item in instance.installments.all() if item.transaction]
+        instance.delete()
+        for trx in transactions:
+            trx.delete()

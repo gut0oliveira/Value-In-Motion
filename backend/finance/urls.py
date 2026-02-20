@@ -3,6 +3,8 @@ from django.urls import path
 from .views import (
     AccountDetailView,
     AccountListCreateView,
+    CardPurchaseDetailView,
+    CardPurchaseListCreateView,
     CategoryDetailView,
     CategoryListCreateView,
     CreditCardDetailView,
@@ -46,4 +48,8 @@ urlpatterns = [
     path("cartoes/", CreditCardListCreateView.as_view(), name="cartao_listar_criar"),
     path("credit-cards/<int:pk>/", CreditCardDetailView.as_view(), name="credit_card_detail"),
     path("cartoes/<int:pk>/", CreditCardDetailView.as_view(), name="cartao_detalhe"),
+    path("card-purchases/", CardPurchaseListCreateView.as_view(), name="card_purchase_list_create"),
+    path("parcelamentos/", CardPurchaseListCreateView.as_view(), name="parcelamento_listar_criar"),
+    path("card-purchases/<int:pk>/", CardPurchaseDetailView.as_view(), name="card_purchase_detail"),
+    path("parcelamentos/<int:pk>/", CardPurchaseDetailView.as_view(), name="parcelamento_detalhe"),
 ]

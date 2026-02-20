@@ -8,7 +8,7 @@ function KpiCard({ titulo, valor, detalhe = "", destaque = "text-ink", className
   );
 }
 
-export default function DashboardResumoKpis({ totais, saldoContas, variacaoSaldo, formatoMoeda }) {
+export default function DashboardResumoKpis({ totais, saldoContas, formatoMoeda }) {
   return (
     <section className="mt-4">
       <div className="mb-2 flex items-center justify-between">
@@ -16,15 +16,8 @@ export default function DashboardResumoKpis({ totais, saldoContas, variacaoSaldo
       </div>
       <div className="grid gap-3 md:grid-cols-6 lg:grid-cols-6">
         <KpiCard
-          className="md:col-span-3 lg:col-span-3"
-          titulo="Saldo do periodo"
-          valor={formatoMoeda.format(totais.saldo)}
-          detalhe={variacaoSaldo === null ? "Sem base anterior" : `Variacao: ${variacaoSaldo.toFixed(1)}%`}
-          destaque="text-ink"
-        />
-        <KpiCard
-          className="md:col-span-3 lg:col-span-3"
-          titulo="Saldo em contas"
+          className="md:col-span-6 lg:col-span-6"
+          titulo="Saldo em conta atual"
           valor={formatoMoeda.format(saldoContas)}
           destaque="text-ink"
         />
@@ -50,5 +43,4 @@ export default function DashboardResumoKpis({ totais, saldoContas, variacaoSaldo
     </section>
   );
 }
-
 

@@ -5,6 +5,7 @@ export default function DashboardModalLancamento({
   salvandoModal,
   formTransacao,
   contas,
+  cartoes,
   categoriasDoTipo,
   onFechar,
   onSalvar,
@@ -19,22 +20,57 @@ export default function DashboardModalLancamento({
         <p className="mt-1 text-sm text-slate-500">Preencha os campos para registrar a transacao.</p>
 
         <form className="mt-5 space-y-3" onSubmit={onSalvar}>
-          <label className="block text-sm font-medium text-slate-700">
-            Conta
-            <select
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-              value={formTransacao.account}
-              onChange={(e) => setFormTransacao((atual) => ({ ...atual, account: e.target.value }))}
-              required
-            >
-              <option value="">Selecione</option>
-              {contas.map((conta) => (
-                <option key={conta.id} value={conta.id}>
-                  {conta.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          {tipoLancamento === "expense" ? (
+            <label className="block text-sm font-medium text-slate-700">
+              Origem da despesa
+              <select
+                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                value={formTransacao.source || "account"}
+                onChange={(e) => setFormTransacao((atual) => ({ ...atual, source: e.target.value }))}
+              >
+                <option value="account">Saldo da conta</option>
+                <option value="credit_card">Cartao de credito</option>
+              </select>
+            </label>
+          ) : null}
+
+          {tipoLancamento === "income" || formTransacao.source !== "credit_card" ? (
+            <label className="block text-sm font-medium text-slate-700">
+              Conta
+              <select
+                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                value={formTransacao.account}
+                onChange={(e) => setFormTransacao((atual) => ({ ...atual, account: e.target.value }))}
+                required={tipoLancamento === "income" || formTransacao.source !== "credit_card"}
+              >
+                <option value="">Selecione</option>
+                {contas.map((conta) => (
+                  <option key={conta.id} value={conta.id}>
+                    {conta.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+
+          {tipoLancamento === "expense" && formTransacao.source === "credit_card" ? (
+            <label className="block text-sm font-medium text-slate-700">
+              Cartao de credito
+              <select
+                className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
+                value={formTransacao.credit_card || ""}
+                onChange={(e) => setFormTransacao((atual) => ({ ...atual, credit_card: e.target.value }))}
+                required
+              >
+                <option value="">Selecione</option>
+                {cartoes.map((cartao) => (
+                  <option key={cartao.id} value={cartao.id}>
+                    {cartao.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
 
           <label className="block text-sm font-medium text-slate-700">
             Categoria

@@ -5,7 +5,7 @@ const formatoMoeda = new Intl.NumberFormat("pt-BR", {
 
 export default function CartoesResumo({ resumo }) {
   return (
-    <div className="mt-5 grid gap-3 md:grid-cols-3">
+    <div className="mt-5 grid gap-3 md:grid-cols-4">
       <article className="rounded-xl bg-slate-50 p-4">
         <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Cartoes ativos</p>
         <p className="mt-1 text-xl font-black text-ink">{resumo.ativos}</p>
@@ -15,8 +15,12 @@ export default function CartoesResumo({ resumo }) {
         <p className="mt-1 text-xl font-black text-sky-700">{formatoMoeda.format(resumo.limiteTotal)}</p>
       </article>
       <article className="rounded-xl bg-amber-50 p-4">
-        <p className="text-[11px] uppercase tracking-[0.12em] text-amber-700">Media por cartao</p>
-        <p className="mt-1 text-xl font-black text-amber-700">{formatoMoeda.format(resumo.mediaLimite)}</p>
+        <p className="text-[11px] uppercase tracking-[0.12em] text-amber-700">Limite usado</p>
+        <p className="mt-1 text-xl font-black text-amber-700">{formatoMoeda.format(resumo.usadoTotal)}</p>
+      </article>
+      <article className="rounded-xl bg-emerald-50 p-4">
+        <p className="text-[11px] uppercase tracking-[0.12em] text-emerald-700">Disponivel</p>
+        <p className="mt-1 text-xl font-black text-emerald-700">{formatoMoeda.format(resumo.disponivelTotal)}</p>
       </article>
     </div>
   );

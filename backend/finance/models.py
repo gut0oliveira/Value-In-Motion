@@ -60,6 +60,15 @@ class Transaction(models.Model):
         Account,
         on_delete=models.CASCADE,
         related_name="transactions",
+        null=True,
+        blank=True,
+    )
+    credit_card = models.ForeignKey(
+        "CreditCard",
+        on_delete=models.SET_NULL,
+        related_name="transactions",
+        null=True,
+        blank=True,
     )
     category = models.ForeignKey(
         Category,
@@ -109,3 +118,70 @@ class CreditCard(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class CardPurchase(models.Model):
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="card_purchases",
+    )
+    credit_card = models.ForeignKey(
+        CreditCard,
+        on_delete=models.CASCADE,
+        related_name="purchases",
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.PROTECT,
+        related_name="card_purchases",
+    )
+    description = models.CharField(max_length=255)
+    total_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    installments_count = models.PositiveSmallIntegerField(
+        default=1,
+        validators=[MinValueValidator(1), MaxValueValidator(48)],
+    )
+    purchase_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ("-purchase_date", "-id")
+
+    def __str__(self):
+        return f"{self.description} ({self.installments_count}x)"
+
+
+class CardInstallment(models.Model):
+    STATUS_CHOICES = (
+        ("open", "Open"),
+        ("paid", "Paid"),
+        ("canceled", "Canceled"),
+    )
+
+    purchase = models.ForeignKey(
+        CardPurchase,
+        on_delete=models.CASCADE,
+        related_name="installments",
+    )
+    installment_number = models.PositiveSmallIntegerField()
+    amount = models.DecimalField(max_digits=12, decimal_places=2)
+    due_date = models.DateField()
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES, default="open")
+    transaction = models.OneToOneField(
+        Transaction,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="installment",
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ("purchase", "installment_number")
+        ordering = ("due_date", "installment_number")
+
+    def __str__(self):
+        return f"{self.purchase.description} {self.installment_number}/{self.purchase.installments_count}"

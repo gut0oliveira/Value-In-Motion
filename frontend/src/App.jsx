@@ -7,7 +7,6 @@ import CartoesPage from "./pages/CartoesPage";
 import CategoriasPage from "./pages/CategoriasPage";
 import ContasPage from "./pages/ContasPage";
 import DashboardPage from "./pages/DashboardPage";
-import FaturasPage from "./pages/FaturasPage";
 import InvestimentosPage from "./pages/InvestimentosPage";
 import LoginPage from "./pages/LoginPage";
 import MetasPage from "./pages/MetasPage";
@@ -45,7 +44,7 @@ export default function App() {
         <Route path="/orcamentos" element={<OrcamentosPage />} />
         <Route path="/metas" element={<MetasPage />} />
         <Route path="/recorrencias" element={<RecorrenciasPage />} />
-        <Route path="/faturas" element={<FaturasPage />} />
+        <Route path="/faturas" element={<Navigate to="/cartoes" replace />} />
         <Route path="/calendario" element={<CalendarioPage />} />
         <Route path="/relatorios" element={<RelatoriosPage />} />
         <Route path="/investimentos" element={<InvestimentosPage />} />

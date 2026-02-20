@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   buscarCategorias,
+  buscarCartoes,
   buscarContas,
   buscarTransacoes,
   buscarVisaoFinancas,
@@ -42,10 +43,6 @@ function inicioPorPeriodo(periodo) {
   return new Date(hoje.getFullYear(), hoje.getMonth(), 1);
 }
 
-function diasEntre(inicio, fim) {
-  return Math.max(1, Math.round((fim - inicio) / (1000 * 60 * 60 * 24)) + 1);
-}
-
 export default function DashboardPage() {
   // Cabecalho
   const nomeUsuario = [getFirstUsername(), getLastUsername()].filter(Boolean).join(" ");
@@ -53,6 +50,7 @@ export default function DashboardPage() {
   // Estado principal
   const [visaoApi, setVisaoApi] = useState(null);
   const [contas, setContas] = useState([]);
+  const [cartoes, setCartoes] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [transacoes, setTransacoes] = useState([]);
 
@@ -71,7 +69,9 @@ export default function DashboardPage() {
   const [erroModal, setErroModal] = useState("");
   const [salvandoModal, setSalvandoModal] = useState(false);
   const [formTransacao, setFormTransacao] = useState({
+    source: "account",
     account: "",
+    credit_card: "",
     category: "",
     description: "",
     amount: "",
@@ -82,14 +82,16 @@ export default function DashboardPage() {
   useEffect(() => {
     async function carregarDados() {
       try {
-        const [visao, contasApi, categoriasApi, transacoesApi] = await Promise.all([
+        const [visao, contasApi, cartoesApi, categoriasApi, transacoesApi] = await Promise.all([
           buscarVisaoFinancas(),
           buscarContas(),
+          buscarCartoes(),
           buscarCategorias(),
           buscarTransacoes(),
         ]);
         setVisaoApi(visao);
         setContas(contasApi);
+        setCartoes(cartoesApi.filter((item) => item.is_active));
         setCategorias(categoriasApi);
         setTransacoes(transacoesApi);
       } catch (e) {
@@ -136,10 +138,14 @@ export default function DashboardPage() {
     return { receitas, despesas, saldo, taxaPoupanca };
   }, [transacoesFiltradas]);
 
-  const saldoContas = useMemo(
-    () => contas.reduce((total, conta) => total + Number(conta.current_balance || 0), 0),
-    [contas]
-  );
+  const saldoContas = useMemo(() => {
+    return transacoes.reduce((total, item) => {
+      if (!item.account) return total;
+      if (filtroConta !== "all" && String(item.account) !== String(filtroConta)) return total;
+      const valor = Number(item.amount || 0);
+      return total + (item.transaction_type === "income" ? valor : -valor);
+    }, 0);
+  }, [transacoes, filtroConta]);
 
   const transacoesHoje = useMemo(
     () => transacoes.filter((item) => item.occurred_on === hojeIso),
@@ -193,31 +199,6 @@ export default function DashboardPage() {
       .slice(0, 6);
   }, [transacoesFiltradas, nomeCategoriaPorId]);
 
-  const variacaoSaldo = useMemo(() => {
-    const quantidadeDias = diasEntre(inicioPeriodo, hoje);
-    const inicioAnterior = new Date(
-      inicioPeriodo.getFullYear(),
-      inicioPeriodo.getMonth(),
-      inicioPeriodo.getDate() - quantidadeDias
-    );
-    const fimAnterior = new Date(
-      inicioPeriodo.getFullYear(),
-      inicioPeriodo.getMonth(),
-      inicioPeriodo.getDate() - 1
-    );
-
-    const saldoAnterior = transacoes.reduce((total, item) => {
-      if (filtroConta !== "all" && String(item.account) !== String(filtroConta)) return total;
-      const data = paraData(item.occurred_on);
-      if (data < inicioAnterior || data > fimAnterior) return total;
-      const valor = Number(item.amount);
-      return total + (item.transaction_type === "income" ? valor : -valor);
-    }, 0);
-
-    if (saldoAnterior === 0) return null;
-    return ((totais.saldo - saldoAnterior) / Math.abs(saldoAnterior)) * 100;
-  }, [transacoes, filtroConta, inicioPeriodo, hoje, totais.saldo]);
-
   const insights = useMemo(() => {
     const lista = [];
 
@@ -254,8 +235,11 @@ export default function DashboardPage() {
     setErroModal("");
     setTipoLancamento(tipo);
     const primeiraCategoria = categorias.find((categoria) => categoria.transaction_type === tipo);
+    const usarCartao = tipo === "expense" && !contas[0]?.id && cartoes[0]?.id;
     setFormTransacao({
+      source: usarCartao ? "credit_card" : "account",
       account: contas[0]?.id ? String(contas[0].id) : "",
+      credit_card: cartoes[0]?.id ? String(cartoes[0].id) : "",
       category: primeiraCategoria?.id ? String(primeiraCategoria.id) : "",
       description: "",
       amount: "",
@@ -267,15 +251,39 @@ export default function DashboardPage() {
   async function salvarTransacao(evento) {
     evento.preventDefault();
     setErroModal("");
+    if (tipoLancamento === "income" && !formTransacao.account) {
+      setErroModal("Selecione uma conta para a receita.");
+      return;
+    }
+    if (tipoLancamento === "expense" && formTransacao.source === "credit_card" && !formTransacao.credit_card) {
+      setErroModal("Selecione um cartao para a despesa.");
+      return;
+    }
+    if (tipoLancamento === "expense" && formTransacao.source !== "credit_card" && !formTransacao.account) {
+      setErroModal("Selecione uma conta para a despesa.");
+      return;
+    }
     setSalvandoModal(true);
     try {
-      const transacaoCriada = await criarTransacao({
-        account: Number(formTransacao.account),
+      const payload = {
         category: Number(formTransacao.category),
         transaction_type: tipoLancamento,
         description: formTransacao.description,
         amount: formTransacao.amount,
         occurred_on: formTransacao.occurred_on,
+      };
+      if (tipoLancamento === "income") {
+        payload.account = Number(formTransacao.account);
+        payload.credit_card = null;
+      } else if (formTransacao.source === "credit_card") {
+        payload.account = null;
+        payload.credit_card = Number(formTransacao.credit_card);
+      } else {
+        payload.account = Number(formTransacao.account);
+        payload.credit_card = null;
+      }
+      const transacaoCriada = await criarTransacao({
+        ...payload,
       });
       setTransacoes((atual) => [transacaoCriada, ...atual]);
       setModalAberto(false);
@@ -317,7 +325,6 @@ export default function DashboardPage() {
           <DashboardResumoKpis
             totais={totais}
             saldoContas={saldoContas}
-            variacaoSaldo={variacaoSaldo}
             formatoMoeda={formatoMoeda}
           />
 
@@ -351,6 +358,7 @@ export default function DashboardPage() {
         salvandoModal={salvandoModal}
         formTransacao={formTransacao}
         contas={contas}
+        cartoes={cartoes}
         categoriasDoTipo={categoriasDoTipo}
         onFechar={() => setModalAberto(false)}
         onSalvar={salvarTransacao}

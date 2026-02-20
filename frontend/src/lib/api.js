@@ -169,6 +169,30 @@ export function excluirCartao(id) {
   });
 }
 
+export function buscarParcelamentosCartao() {
+  return requisicao("/api/financas/parcelamentos/");
+}
+
+export function criarParcelamentoCartao(payload) {
+  return requisicao("/api/financas/parcelamentos/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function atualizarParcelamentoCartao(id, payload) {
+  return requisicao(`/api/financas/parcelamentos/${id}/`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function excluirParcelamentoCartao(id) {
+  return requisicao(`/api/financas/parcelamentos/${id}/`, {
+    method: "DELETE",
+  });
+}
+
 export function buscarCategorias() {
   return requisicao("/api/financas/categorias/");
 }
@@ -201,5 +225,18 @@ export function criarTransacao(payload) {
   return requisicao("/api/financas/transacoes/", {
     method: "POST",
     body: JSON.stringify(payload),
+  });
+}
+
+export function atualizarTransacao(id, payload) {
+  return requisicao(`/api/financas/transacoes/${id}/`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function excluirTransacao(id) {
+  return requisicao(`/api/financas/transacoes/${id}/`, {
+    method: "DELETE",
   });
 }
