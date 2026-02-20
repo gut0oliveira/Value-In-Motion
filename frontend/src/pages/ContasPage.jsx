@@ -3,6 +3,7 @@ import { atualizarConta, buscarContas, criarConta, excluirConta } from "../lib/a
 import ContasFormulario from "../components/contas/ContasFormulario";
 import ContasLista from "../components/contas/ContasLista";
 import ContasResumo from "../components/contas/ContasResumo";
+import useConfirmDialog from "../hooks/useConfirmDialog";
 
 export default function ContasPage() {
   const [contas, setContas] = useState([]);
@@ -13,6 +14,7 @@ export default function ContasPage() {
   const [filtroTipo, setFiltroTipo] = useState("all");
   const [editandoId, setEditandoId] = useState(null);
   const [form, setForm] = useState({ name: "", account_type: "checking" });
+  const { confirmar, dialogo } = useConfirmDialog();
 
   useEffect(() => {
     async function carregar() {
@@ -88,8 +90,12 @@ export default function ContasPage() {
   }
 
   async function removerConta(item) {
-    const confirmar = window.confirm(`Remover a conta "${item.name}"?`);
-    if (!confirmar) return;
+    const confirmou = await confirmar({
+      titulo: "Excluir conta",
+      mensagem: `Remover a conta "${item.name}"?`,
+      textoConfirmar: "Excluir",
+    });
+    if (!confirmou) return;
     setErro("");
     try {
       await excluirConta(item.id);
@@ -134,6 +140,7 @@ export default function ContasPage() {
           />
         </div>
       </section>
+      {dialogo}
     </main>
   );
 }

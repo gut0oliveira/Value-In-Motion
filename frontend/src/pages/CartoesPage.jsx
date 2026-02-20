@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import CartoesFormulario from "../components/cartoes/CartoesFormulario";
 import CartoesLista from "../components/cartoes/CartoesLista";
 import CartoesResumo from "../components/cartoes/CartoesResumo";
+import useConfirmDialog from "../hooks/useConfirmDialog";
 import {
   atualizarCartao,
   atualizarParcelamentoCartao,
@@ -60,6 +61,7 @@ export default function CartoesPage() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mostrarParcelamento, setMostrarParcelamento] = useState(false);
   const [editandoParcelamentoId, setEditandoParcelamentoId] = useState(null);
+  const { confirmar, dialogo } = useConfirmDialog();
   const [form, setForm] = useState({
     name: "",
     brand: "",
@@ -225,8 +227,12 @@ export default function CartoesPage() {
   }
 
   async function removerCartao(item) {
-    const confirmar = window.confirm(`Remover o cartao "${item.name}"?`);
-    if (!confirmar) return;
+    const confirmou = await confirmar({
+      titulo: "Excluir cartao",
+      mensagem: `Remover o cartao "${item.name}"?`,
+      textoConfirmar: "Excluir",
+    });
+    if (!confirmou) return;
     setErro("");
     try {
       await excluirCartao(item.id);
@@ -288,8 +294,12 @@ export default function CartoesPage() {
   }
 
   async function removerParcelamento(item) {
-    const confirmar = window.confirm(`Remover parcelamento "${item.description}"?`);
-    if (!confirmar) return;
+    const confirmou = await confirmar({
+      titulo: "Excluir parcelamento",
+      mensagem: `Remover parcelamento "${item.description}"?`,
+      textoConfirmar: "Excluir",
+    });
+    if (!confirmou) return;
     setErro("");
     try {
       await excluirParcelamentoCartao(item.id);
@@ -498,6 +508,7 @@ export default function CartoesPage() {
           />
         </div>
       </section>
+      {dialogo}
     </main>
   );
 }

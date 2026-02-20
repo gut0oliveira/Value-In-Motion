@@ -3,6 +3,7 @@ import { atualizarCategoria, buscarCategorias, criarCategoria, excluirCategoria 
 import CategoriasFormulario from "../components/categorias/CategoriasFormulario";
 import CategoriasLista from "../components/categorias/CategoriasLista";
 import CategoriasResumo from "../components/categorias/CategoriasResumo";
+import useConfirmDialog from "../hooks/useConfirmDialog";
 
 export default function CategoriasPage() {
   const [categorias, setCategorias] = useState([]);
@@ -13,6 +14,7 @@ export default function CategoriasPage() {
   const [filtroTipo, setFiltroTipo] = useState("all");
   const [editandoId, setEditandoId] = useState(null);
   const [form, setForm] = useState({ name: "", transaction_type: "expense" });
+  const { confirmar, dialogo } = useConfirmDialog();
 
   useEffect(() => {
     async function carregar() {
@@ -88,8 +90,12 @@ export default function CategoriasPage() {
   }
 
   async function removerCategoria(item) {
-    const confirmar = window.confirm(`Remover a categoria "${item.name}"?`);
-    if (!confirmar) return;
+    const confirmou = await confirmar({
+      titulo: "Excluir categoria",
+      mensagem: `Remover a categoria "${item.name}"?`,
+      textoConfirmar: "Excluir",
+    });
+    if (!confirmou) return;
     setErro("");
     try {
       await excluirCategoria(item.id);
@@ -134,6 +140,7 @@ export default function CategoriasPage() {
           />
         </div>
       </section>
+      {dialogo}
     </main>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import TransacoesFormulario from "../components/transacoes/TransacoesFormulario";
 import TransacoesLista from "../components/transacoes/TransacoesLista";
 import TransacoesResumo from "../components/transacoes/TransacoesResumo";
+import useConfirmDialog from "../hooks/useConfirmDialog";
 import {
   atualizarTransacao,
   buscarCartoes,
@@ -30,6 +31,7 @@ export default function TransacoesPage() {
   const [filtroCategoria, setFiltroCategoria] = useState("all");
   const [editandoId, setEditandoId] = useState(null);
   const [mostrarPainelEdicao, setMostrarPainelEdicao] = useState(false);
+  const { confirmar, dialogo } = useConfirmDialog();
   const [form, setForm] = useState({
     transaction_type: "expense",
     source: "account",
@@ -193,8 +195,12 @@ export default function TransacoesPage() {
   }
 
   async function removerTransacao(item) {
-    const confirmar = window.confirm("Remover esta transacao?");
-    if (!confirmar) return;
+    const confirmou = await confirmar({
+      titulo: "Excluir transacao",
+      mensagem: "Remover esta transacao?",
+      textoConfirmar: "Excluir",
+    });
+    if (!confirmou) return;
     setErro("");
     try {
       await excluirTransacao(item.id);
@@ -281,6 +287,7 @@ export default function TransacoesPage() {
           />
         </div>
       </section>
+      {dialogo}
     </main>
   );
 }
