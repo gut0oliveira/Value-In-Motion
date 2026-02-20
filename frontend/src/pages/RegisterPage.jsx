@@ -43,17 +43,7 @@ export default function RegisterPage() {
 
         <form className="mt-7 space-y-4" onSubmit={handleSubmit}>
           <label className="block text-sm font-medium text-slate-700">
-            Nome
-            <input
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </label>
-
-          <label className="block text-sm font-medium text-slate-700">
-            Usuario
+            Usuário
             <input
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
               value={username}
@@ -63,7 +53,18 @@ export default function RegisterPage() {
           </label>
 
           <label className="block text-sm font-medium text-slate-700">
-            último nome
+            Primeiro nome
+            <input
+              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </label>
+
+
+          <label className="block text-sm font-medium text-slate-700">
+            Último nome
             <input
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
               value={lastName}

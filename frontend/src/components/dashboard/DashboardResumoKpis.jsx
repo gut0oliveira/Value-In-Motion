@@ -1,0 +1,54 @@
+function KpiCard({ titulo, valor, detalhe = "", destaque = "text-ink", className = "" }) {
+  return (
+    <article className={`h-full min-h-[118px] rounded-xl border border-slate-200 bg-white p-4 ${className}`}>
+      <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">{titulo}</p>
+      <p className={`mt-1 text-xl font-black ${destaque}`}>{valor}</p>
+      {detalhe ? <p className="mt-1 text-xs text-slate-500">{detalhe}</p> : null}
+    </article>
+  );
+}
+
+export default function DashboardResumoKpis({ totais, saldoContas, variacaoSaldo, formatoMoeda }) {
+  return (
+    <section className="mt-4">
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Resumo</p>
+      </div>
+      <div className="grid gap-3 md:grid-cols-6 lg:grid-cols-6">
+        <KpiCard
+          className="md:col-span-3 lg:col-span-3"
+          titulo="Saldo do periodo"
+          valor={formatoMoeda.format(totais.saldo)}
+          detalhe={variacaoSaldo === null ? "Sem base anterior" : `Variacao: ${variacaoSaldo.toFixed(1)}%`}
+          destaque="text-ink"
+        />
+        <KpiCard
+          className="md:col-span-3 lg:col-span-3"
+          titulo="Saldo em contas"
+          valor={formatoMoeda.format(saldoContas)}
+          destaque="text-ink"
+        />
+        <KpiCard
+          className="md:col-span-2 lg:col-span-2"
+          titulo="Receitas"
+          valor={formatoMoeda.format(totais.receitas)}
+          destaque="text-green-700"
+        />
+        <KpiCard
+          className="md:col-span-2 lg:col-span-2"
+          titulo="Despesas"
+          valor={formatoMoeda.format(totais.despesas)}
+          destaque="text-rose-700"
+        />
+        <KpiCard
+          className="md:col-span-2 lg:col-span-2"
+          titulo="Taxa poupanca"
+          valor={totais.taxaPoupanca === null ? "-" : `${totais.taxaPoupanca.toFixed(1)}%`}
+          destaque="text-sky-700"
+        />
+      </div>
+    </section>
+  );
+}
+
+

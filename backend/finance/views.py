@@ -2,8 +2,13 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Account, Category, Transaction
-from .serializers import AccountSerializer, CategorySerializer, TransactionSerializer
+from .models import Account, Category, CreditCard, Transaction
+from .serializers import (
+    AccountSerializer,
+    CategorySerializer,
+    CreditCardSerializer,
+    TransactionSerializer,
+)
 
 
 @api_view(["GET"])
@@ -15,6 +20,7 @@ def finance_overview(request):
                 "accounts": "/api/finance/accounts/",
                 "categories": "/api/finance/categories/",
                 "transactions": "/api/finance/transactions/",
+                "credit_cards": "/api/finance/credit-cards/",
             },
         }
     )
@@ -73,3 +79,20 @@ class TransactionDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Transaction.objects.select_related("owner", "account", "category").filter(
             owner=self.request.user
         )
+
+
+class CreditCardListCreateView(generics.ListCreateAPIView):
+    serializer_class = CreditCardSerializer
+
+    def get_queryset(self):
+        return CreditCard.objects.select_related("owner").filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+class CreditCardDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CreditCardSerializer
+
+    def get_queryset(self):
+        return CreditCard.objects.select_related("owner").filter(owner=self.request.user)

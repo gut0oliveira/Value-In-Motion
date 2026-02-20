@@ -5,6 +5,8 @@ from .views import (
     AccountListCreateView,
     CategoryDetailView,
     CategoryListCreateView,
+    CreditCardDetailView,
+    CreditCardListCreateView,
     TransactionDetailView,
     TransactionListCreateView,
     finance_overview,
@@ -40,4 +42,8 @@ urlpatterns = [
         TransactionDetailView.as_view(),
         name="transacao_detalhe",
     ),
+    path("credit-cards/", CreditCardListCreateView.as_view(), name="credit_card_list_create"),
+    path("cartoes/", CreditCardListCreateView.as_view(), name="cartao_listar_criar"),
+    path("credit-cards/<int:pk>/", CreditCardDetailView.as_view(), name="credit_card_detail"),
+    path("cartoes/<int:pk>/", CreditCardDetailView.as_view(), name="cartao_detalhe"),
 ]

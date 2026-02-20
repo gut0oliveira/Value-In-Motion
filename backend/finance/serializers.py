@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Account, Category, Transaction
+from .models import Account, Category, CreditCard, Transaction
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -61,6 +61,24 @@ class TransactionSerializer(serializers.ModelSerializer):
             "description",
             "amount",
             "occurred_on",
+            "created_at",
+            "updated_at",
+        )
+        read_only_fields = ("id", "owner", "created_at", "updated_at")
+
+
+class CreditCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CreditCard
+        fields = (
+            "id",
+            "name",
+            "brand",
+            "limit_amount",
+            "closing_day",
+            "due_day",
+            "is_active",
+            "owner",
             "created_at",
             "updated_at",
         )

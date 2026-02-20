@@ -3,6 +3,7 @@ import AppShell from "./components/AppShell";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminSistemaPage from "./pages/AdminSistemaPage";
 import CalendarioPage from "./pages/CalendarioPage";
+import CartoesPage from "./pages/CartoesPage";
 import CategoriasPage from "./pages/CategoriasPage";
 import ContasPage from "./pages/ContasPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/transacoes" element={<TransacoesPage />} />
         <Route path="/contas" element={<ContasPage />} />
+        <Route path="/cartoes" element={<CartoesPage />} />
         <Route path="/categorias" element={<CategoriasPage />} />
         <Route path="/orcamentos" element={<OrcamentosPage />} />
         <Route path="/metas" element={<MetasPage />} />

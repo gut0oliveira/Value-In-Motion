@@ -1,10 +1,139 @@
-import PaginaModuloBase from "../components/PaginaModuloBase";
+import { useEffect, useMemo, useState } from "react";
+import { atualizarConta, buscarContas, criarConta, excluirConta } from "../lib/api";
+import ContasFormulario from "../components/contas/ContasFormulario";
+import ContasLista from "../components/contas/ContasLista";
+import ContasResumo from "../components/contas/ContasResumo";
 
 export default function ContasPage() {
+  const [contas, setContas] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
+  const [salvando, setSalvando] = useState(false);
+  const [busca, setBusca] = useState("");
+  const [filtroTipo, setFiltroTipo] = useState("all");
+  const [editandoId, setEditandoId] = useState(null);
+  const [form, setForm] = useState({ name: "", account_type: "checking" });
+
+  useEffect(() => {
+    async function carregar() {
+      try {
+        const dados = await buscarContas();
+        setContas(dados);
+      } catch (e) {
+        setErro(e.message);
+      } finally {
+        setCarregando(false);
+      }
+    }
+    carregar();
+  }, []);
+
+  const contasFiltradas = useMemo(() => {
+    const termo = busca.trim().toLowerCase();
+    return contas.filter((item) => {
+      const tipoOk = filtroTipo === "all" || item.account_type === filtroTipo;
+      const nomeOk = !termo || item.name.toLowerCase().includes(termo);
+      return tipoOk && nomeOk;
+    });
+  }, [contas, busca, filtroTipo]);
+
+  const resumo = useMemo(() => {
+    const total = contas.length;
+    const checking = contas.filter((item) => item.account_type === "checking").length;
+    const others = Math.max(0, total - checking);
+    return { total, checking, others };
+  }, [contas]);
+
+  function iniciarCriacao(tipo = "checking") {
+    setEditandoId(null);
+    setForm({ name: "", account_type: tipo });
+    setErro("");
+  }
+
+  function iniciarEdicao(item) {
+    setEditandoId(item.id);
+    setForm({ name: item.name, account_type: item.account_type || "checking" });
+    setErro("");
+  }
+
+  async function salvarConta(evento) {
+    evento.preventDefault();
+    if (!form.name.trim()) {
+      setErro("Informe um nome para a conta.");
+      return;
+    }
+
+    setSalvando(true);
+    setErro("");
+    try {
+      if (editandoId) {
+        const atualizada = await atualizarConta(editandoId, {
+          name: form.name.trim(),
+          account_type: form.account_type,
+        });
+        setContas((atual) => atual.map((item) => (item.id === editandoId ? atualizada : item)));
+      } else {
+        const criada = await criarConta({
+          name: form.name.trim(),
+          account_type: form.account_type,
+        });
+        setContas((atual) => [criada, ...atual]);
+      }
+      iniciarCriacao(form.account_type);
+    } catch (e) {
+      setErro(e.message);
+    } finally {
+      setSalvando(false);
+    }
+  }
+
+  async function removerConta(item) {
+    const confirmar = window.confirm(`Remover a conta "${item.name}"?`);
+    if (!confirmar) return;
+    setErro("");
+    try {
+      await excluirConta(item.id);
+      setContas((atual) => atual.filter((conta) => conta.id !== item.id));
+      if (editandoId === item.id) iniciarCriacao();
+    } catch (e) {
+      setErro(e.message);
+    }
+  }
+
   return (
-    <PaginaModuloBase
-      titulo="Contas"
-      descricao="Gestao de contas correntes, poupancas, carteiras e cartoes para consolidar saldos."
-    />
+    <main className="mx-auto max-w-7xl">
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
+        <h1 className="mt-2 text-2xl font-black text-ink">Contas</h1>
+        <p className="mt-2 text-sm text-slate-600">
+          Gerencie suas contas para organizar onde as transacoes acontecem e consolidar o controle financeiro.
+        </p>
+
+        <ContasResumo resumo={resumo} />
+
+        {erro ? <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{erro}</p> : null}
+
+        <div className="mt-6 grid gap-4 lg:grid-cols-3">
+          <ContasFormulario
+            editandoId={editandoId}
+            form={form}
+            setForm={setForm}
+            salvando={salvando}
+            onSubmit={salvarConta}
+            onCancel={() => iniciarCriacao(form.account_type)}
+          />
+          <ContasLista
+            carregando={carregando}
+            contasFiltradas={contasFiltradas}
+            busca={busca}
+            setBusca={setBusca}
+            filtroTipo={filtroTipo}
+            setFiltroTipo={setFiltroTipo}
+            onEdit={iniciarEdicao}
+            onDelete={removerConta}
+          />
+        </div>
+      </section>
+    </main>
   );
 }

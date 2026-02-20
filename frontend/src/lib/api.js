@@ -125,8 +125,72 @@ export function buscarContas() {
   return requisicao("/api/financas/contas/");
 }
 
+export function criarConta(payload) {
+  return requisicao("/api/financas/contas/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function atualizarConta(id, payload) {
+  return requisicao(`/api/financas/contas/${id}/`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function excluirConta(id) {
+  return requisicao(`/api/financas/contas/${id}/`, {
+    method: "DELETE",
+  });
+}
+
+export function buscarCartoes() {
+  return requisicao("/api/financas/cartoes/");
+}
+
+export function criarCartao(payload) {
+  return requisicao("/api/financas/cartoes/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function atualizarCartao(id, payload) {
+  return requisicao(`/api/financas/cartoes/${id}/`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function excluirCartao(id) {
+  return requisicao(`/api/financas/cartoes/${id}/`, {
+    method: "DELETE",
+  });
+}
+
 export function buscarCategorias() {
   return requisicao("/api/financas/categorias/");
+}
+
+export function criarCategoria(payload) {
+  return requisicao("/api/financas/categorias/", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function atualizarCategoria(id, payload) {
+  return requisicao(`/api/financas/categorias/${id}/`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function excluirCategoria(id) {
+  return requisicao(`/api/financas/categorias/${id}/`, {
+    method: "DELETE",
+  });
 }
 
 export function buscarTransacoes() {
