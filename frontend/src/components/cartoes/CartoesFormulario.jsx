@@ -4,7 +4,7 @@ export default function CartoesFormulario({ editandoId, form, setForm, salvando,
       <h2 className="text-base font-bold text-ink">{editandoId ? `Editar cartao #${editandoId}` : "Novo cartao"}</h2>
       <form className="mt-3 space-y-3" onSubmit={onSubmit}>
         <label className="block text-sm">
-          <span className="mb-1 block text-slate-600">Nome do cartao</span>
+          <span className="mb-1 block text-slate-600">Nome do cartão</span>
           <input
             value={form.name}
             onChange={(e) => setForm((atual) => ({ ...atual, name: e.target.value }))}

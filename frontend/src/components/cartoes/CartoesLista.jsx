@@ -106,7 +106,7 @@ export default function CartoesLista({
                     {item.brand || "Sem bandeira"} | Limite {formatoMoeda.format(Number(item.limit_amount || 0))}
                   </p>
                   <p className="text-xs text-slate-500">
-                    Usado: {formatoMoeda.format(item.usado || 0)} | Disponivel:{" "}
+                    Usado: {formatoMoeda.format(item.usado || 0)} | Disponível:{" "}
                     {formatoMoeda.format(item.disponivel || 0)}
                   </p>
                   <div className="mt-1 h-2.5 w-full max-w-md rounded-full bg-slate-200">

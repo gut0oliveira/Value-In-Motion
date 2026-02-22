@@ -272,7 +272,7 @@ export default function DashboardPage() {
         category: Number(formTransacao.category),
         transaction_type: tipoLancamento,
         description: formTransacao.description,
-        amount: formTransacao.amount,
+        amount: Number(formTransacao.amount),
         occurred_on: formTransacao.occurred_on,
       };
       if (tipoLancamento === "income") {

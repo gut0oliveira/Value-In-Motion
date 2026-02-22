@@ -7,7 +7,7 @@ export default function CartoesResumo({ resumo }) {
   return (
     <div className="mt-5 grid gap-3 md:grid-cols-4">
       <article className="rounded-xl bg-slate-50 p-4">
-        <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Cartoes ativos</p>
+        <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Cartões ativos</p>
         <p className="mt-1 text-xl font-black text-ink">{resumo.ativos}</p>
       </article>
       <article className="rounded-xl bg-sky-50 p-4">
@@ -19,7 +19,7 @@ export default function CartoesResumo({ resumo }) {
         <p className="mt-1 text-xl font-black text-amber-700">{formatoMoeda.format(resumo.usadoTotal)}</p>
       </article>
       <article className="rounded-xl bg-emerald-50 p-4">
-        <p className="text-[11px] uppercase tracking-[0.12em] text-emerald-700">Disponivel</p>
+        <p className="text-[11px] uppercase tracking-[0.12em] text-emerald-700">Disponível</p>
         <p className="mt-1 text-xl font-black text-emerald-700">{formatoMoeda.format(resumo.disponivelTotal)}</p>
       </article>
     </div>

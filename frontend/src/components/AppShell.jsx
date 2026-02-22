@@ -42,16 +42,16 @@ function IconeMenu({ nome, className = "h-4 w-4" }) {
 const itensMenu = [
   { to: "/", label: "Dashboard", icone: "dashboard" },
   { to: "/contas", label: "Contas", icone: "contas" },
-  { to: "/cartoes", label: "Cartoes", icone: "cartoes" },
-  { to: "/transacoes", label: "Transacoes", icone: "transacoes" },
-  { to: "/recorrencias", label: "Recorrencias", icone: "recorrencias" },
+  { to: "/cartoes", label: "Cartões", icone: "cartoes" },
+  { to: "/transacoes", label: "Transações", icone: "transacoes" },
   { to: "/categorias", label: "Categorias", icone: "categorias" },
-  { to: "/orcamentos", label: "Orcamentos", icone: "orcamentos" },
+  { to: "/orcamentos", label: "Orçamentos", icone: "orcamentos" },
   { to: "/metas", label: "Metas", icone: "metas" },
+  { to: "/recorrencias", label: "Recorrências", icone: "recorrencias" },
   { to: "/investimentos", label: "Investimentos", icone: "investimentos" },
-  { to: "/calendario", label: "Calendario", icone: "calendario" },
-  { to: "/relatorios", label: "Relatorios", icone: "relatorios" },
-  { to: "/perfil-configuracoes", label: "Perfil e Configuracoes", icone: "perfil" },
+  { to: "/calendario", label: "Calendário", icone: "calendario" },
+  { to: "/relatorios", label: "Relatórios", icone: "relatorios" },
+  { to: "/perfil-configuracoes", label: "Perfil e Configurações", icone: "perfil" },
   { to: "/admin-sistema", label: "Admin do Sistema", icone: "admin" },
 ];
 
@@ -144,7 +144,7 @@ export default function AppShell() {
 
         <section className="min-w-0 flex-1 rounded-2xl">
           <div className="mb-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 lg:hidden">
-            <p className="text-sm font-semibold text-ink">Menu rapido</p>
+            <p className="text-sm font-semibold text-ink">Menu rápido</p>
             <div className="mt-2 flex flex-wrap gap-2">
               {itensMenu.slice(0, 6).map((item) => (
                 <NavLink

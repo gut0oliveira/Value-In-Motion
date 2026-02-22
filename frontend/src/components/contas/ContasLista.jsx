@@ -37,7 +37,7 @@ export default function ContasLista({
           >
             <option value="all">Todos os tipos</option>
             <option value="checking">Conta corrente</option>
-            <option value="savings">Poupanca</option>
+            <option value="savings">Poupanças</option>
             <option value="cash">Carteira / Dinheiro</option>
             <option value="investment">Investimento</option>
           </select>

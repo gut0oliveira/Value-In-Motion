@@ -7,7 +7,7 @@ export default function DashboardTabelaStatus({
   visaoApi,
 }) {
   return (
-    <section className="mt-4 grid gap-4 lg:grid-cols-3">
+    <section className="mt-4 grid gap-4 lg:grid-cols-1">
       <article className="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2">
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
           <h2 className="text-base font-bold text-ink">Transações recentes</h2>
@@ -68,12 +68,12 @@ export default function DashboardTabelaStatus({
         )}
       </article>
 
-      <article className="rounded-2xl border border-slate-200 bg-white p-5">
+      {/* <article className="rounded-2xl border border-slate-200 bg-white p-5">
         <h2 className="text-base font-bold text-ink">Status técnico</h2>
         <pre className="mt-3 overflow-auto rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
           {JSON.stringify(visaoApi, null, 2)}
         </pre>
-      </article>
+      </article> */}
     </section>
   );
 }

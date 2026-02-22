@@ -329,9 +329,9 @@ export default function CartoesPage() {
     <main className="mx-auto max-w-7xl">
       <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
-        <h1 className="mt-2 text-2xl font-black text-ink">Cartoes de credito</h1>
+        <h1 className="mt-2 text-2xl font-black text-ink">Cartões de crédito</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Cadastre seus cartoes com limite, dia de fechamento e dia de vencimento para preparar faturas e alertas.
+          Cadastre seus cartões com limite, dia de fechamento e dia de vencimento para preparar faturas e alertas.
         </p>
 
         <CartoesResumo resumo={resumo} />
@@ -341,9 +341,9 @@ export default function CartoesPage() {
         <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-bold text-ink">Parcelamentos no cartao</h2>
+              <h2 className="text-base font-bold text-ink">Parcelamentos no cartão</h2>
               <p className="mt-1 text-xs text-slate-500">
-                Cada parcela gera automaticamente uma despesa futura no cartao correspondente.
+                Cada parcela gera automaticamente uma despesa futura no cartão correspondente.
               </p>
             </div>
             <button
@@ -370,7 +370,7 @@ export default function CartoesPage() {
                 onChange={(e) => setFormParcelamento((atual) => ({ ...atual, credit_card: e.target.value }))}
                 className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
               >
-                <option value="">Selecione o cartao</option>
+                <option value="">Selecione o cartão</option>
                 {cartoes.filter((item) => item.is_active).map((item) => (
                   <option key={item.id} value={item.id}>
                     {item.name}
@@ -392,7 +392,7 @@ export default function CartoesPage() {
               <input
                 value={formParcelamento.description}
                 onChange={(e) => setFormParcelamento((atual) => ({ ...atual, description: e.target.value }))}
-                placeholder="Descricao da compra"
+                placeholder="Descrição da compra"
                 className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
               />
               <input
@@ -428,7 +428,7 @@ export default function CartoesPage() {
                   {salvandoParcelamento
                     ? "Salvando..."
                     : editandoParcelamentoId
-                      ? "Salvar alteracoes do parcelamento"
+                      ? "Salvar alterações do parcelamento"
                       : "Salvar parcelamento"}
                 </button>
               </div>
@@ -478,7 +478,7 @@ export default function CartoesPage() {
             }}
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700"
           >
-            {mostrarFormulario ? "Fechar painel" : "Novo cartao"}
+            {mostrarFormulario ? "Fechar painel" : "Novo cartão"}
           </button>
         </div>
 

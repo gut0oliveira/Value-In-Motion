@@ -1,6 +1,6 @@
 const TIPOS_CONTA = [
   { value: "checking", label: "Conta corrente" },
-  { value: "savings", label: "Poupanca" },
+  { value: "savings", label: "Poupança" },
   { value: "cash", label: "Carteira / Dinheiro" },
   { value: "investment", label: "Investimento" },
 ];

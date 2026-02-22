@@ -35,7 +35,7 @@ export default function DashboardResumoKpis({ totais, saldoContas, formatoMoeda 
         />
         <KpiCard
           className="md:col-span-2 lg:col-span-2"
-          titulo="Taxa poupanca"
+          titulo="Taxa poupança (30 dias)"
           valor={totais.taxaPoupanca === null ? "-" : `${totais.taxaPoupanca.toFixed(1)}%`}
           destaque="text-sky-700"
         />
