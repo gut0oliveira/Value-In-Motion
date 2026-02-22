@@ -13,6 +13,7 @@ export default function CategoriasPage() {
   const [busca, setBusca] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("all");
   const [editandoId, setEditandoId] = useState(null);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [form, setForm] = useState({ name: "", transaction_type: "expense" });
   const { confirmar, dialogo } = useConfirmDialog();
 
@@ -54,6 +55,7 @@ export default function CategoriasPage() {
 
   function iniciarEdicao(item) {
     setEditandoId(item.id);
+    setMostrarFormulario(true);
     setForm({ name: item.name, transaction_type: item.transaction_type });
     setErro("");
   }
@@ -82,6 +84,7 @@ export default function CategoriasPage() {
         setCategorias((atual) => [criada, ...atual]);
       }
       iniciarCriacao(form.transaction_type);
+      setMostrarFormulario(false);
     } catch (e) {
       setErro(e.message);
     } finally {
@@ -100,7 +103,10 @@ export default function CategoriasPage() {
     try {
       await excluirCategoria(item.id);
       setCategorias((atual) => atual.filter((categoria) => categoria.id !== item.id));
-      if (editandoId === item.id) iniciarCriacao();
+      if (editandoId === item.id) {
+        iniciarCriacao();
+        setMostrarFormulario(false);
+      }
     } catch (e) {
       setErro(e.message);
     }
@@ -119,15 +125,38 @@ export default function CategoriasPage() {
 
         {erro ? <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{erro}</p> : null}
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-3">
-          <CategoriasFormulario
-            editandoId={editandoId}
-            form={form}
-            setForm={setForm}
-            salvando={salvando}
-            onSubmit={salvarCategoria}
-            onCancel={() => iniciarCriacao(form.transaction_type)}
-          />
+        <div className="mt-6 flex justify-end">
+          <button
+            type="button"
+            onClick={() => {
+              if (mostrarFormulario) {
+                setMostrarFormulario(false);
+                iniciarCriacao();
+              } else {
+                iniciarCriacao();
+                setMostrarFormulario(true);
+              }
+            }}
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700"
+          >
+            {mostrarFormulario ? "Fechar painel" : "Nova categoria"}
+          </button>
+        </div>
+
+        <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 lg:grid-cols-3" : ""}`}>
+          {mostrarFormulario ? (
+            <CategoriasFormulario
+              editandoId={editandoId}
+              form={form}
+              setForm={setForm}
+              salvando={salvando}
+              onSubmit={salvarCategoria}
+              onCancel={() => {
+                iniciarCriacao(form.transaction_type);
+                setMostrarFormulario(false);
+              }}
+            />
+          ) : null}
           <CategoriasLista
             carregando={carregando}
             categoriasFiltradas={categoriasFiltradas}

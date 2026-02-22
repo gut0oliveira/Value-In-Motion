@@ -30,6 +30,7 @@ export default function RecorrenciasPage() {
   const [busca, setBusca] = useState("");
   const [filtroStatus, setFiltroStatus] = useState("all");
   const [editandoId, setEditandoId] = useState(null);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const { confirmar, dialogo } = useConfirmDialog();
 
   const [form, setForm] = useState({
@@ -143,6 +144,7 @@ export default function RecorrenciasPage() {
 
   function editarRecorrencia(item) {
     setEditandoId(item.id);
+    setMostrarFormulario(true);
     setForm({
       description: item.description || "",
       transaction_type: item.transaction_type || "expense",
@@ -208,6 +210,7 @@ export default function RecorrenciasPage() {
         setRecorrencias((atual) => [payload, ...atual]);
       }
       limparFormulario();
+      setMostrarFormulario(false);
     } finally {
       setSalvando(false);
     }
@@ -221,7 +224,10 @@ export default function RecorrenciasPage() {
     });
     if (!confirmou) return;
     setRecorrencias((atual) => atual.filter((r) => r.id !== item.id));
-    if (editandoId === item.id) limparFormulario();
+    if (editandoId === item.id) {
+      limparFormulario();
+      setMostrarFormulario(false);
+    }
   }
 
   function alternarStatus(item) {
@@ -247,18 +253,42 @@ export default function RecorrenciasPage() {
             ))}
           </div>
         ) : (
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
-            <RecorrenciasFormulario
-              editandoId={editandoId}
-              form={form}
-              setForm={setForm}
-              contas={contas}
-              cartoes={cartoes}
-              categoriasDoTipo={categoriasDoTipo}
-              salvando={salvando}
-              onSubmit={salvarRecorrencia}
-              onCancel={limparFormulario}
-            />
+          <>
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  if (mostrarFormulario) {
+                    setMostrarFormulario(false);
+                    limparFormulario();
+                  } else {
+                    limparFormulario();
+                    setMostrarFormulario(true);
+                  }
+                }}
+                className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700"
+              >
+                {mostrarFormulario ? "Fechar painel" : "Nova recorrencia"}
+              </button>
+            </div>
+
+            <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 lg:grid-cols-3" : ""}`}>
+              {mostrarFormulario ? (
+                <RecorrenciasFormulario
+                  editandoId={editandoId}
+                  form={form}
+                  setForm={setForm}
+                  contas={contas}
+                  cartoes={cartoes}
+                  categoriasDoTipo={categoriasDoTipo}
+                  salvando={salvando}
+                  onSubmit={salvarRecorrencia}
+                  onCancel={() => {
+                    limparFormulario();
+                    setMostrarFormulario(false);
+                  }}
+                />
+              ) : null}
             <RecorrenciasLista
               recorrenciasFiltradas={recorrenciasFiltradas}
               busca={busca}
@@ -272,7 +302,8 @@ export default function RecorrenciasPage() {
               onToggleAtivo={alternarStatus}
               onDelete={excluirRecorrencia}
             />
-          </div>
+            </div>
+          </>
         )}
       </section>
       {dialogo}

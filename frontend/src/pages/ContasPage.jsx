@@ -13,6 +13,7 @@ export default function ContasPage() {
   const [busca, setBusca] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("all");
   const [editandoId, setEditandoId] = useState(null);
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [form, setForm] = useState({ name: "", account_type: "checking" });
   const { confirmar, dialogo } = useConfirmDialog();
 
@@ -54,6 +55,7 @@ export default function ContasPage() {
 
   function iniciarEdicao(item) {
     setEditandoId(item.id);
+    setMostrarFormulario(true);
     setForm({ name: item.name, account_type: item.account_type || "checking" });
     setErro("");
   }
@@ -82,6 +84,7 @@ export default function ContasPage() {
         setContas((atual) => [criada, ...atual]);
       }
       iniciarCriacao(form.account_type);
+      setMostrarFormulario(false);
     } catch (e) {
       setErro(e.message);
     } finally {
@@ -100,7 +103,10 @@ export default function ContasPage() {
     try {
       await excluirConta(item.id);
       setContas((atual) => atual.filter((conta) => conta.id !== item.id));
-      if (editandoId === item.id) iniciarCriacao();
+      if (editandoId === item.id) {
+        iniciarCriacao();
+        setMostrarFormulario(false);
+      }
     } catch (e) {
       setErro(e.message);
     }
@@ -119,15 +125,38 @@ export default function ContasPage() {
 
         {erro ? <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{erro}</p> : null}
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-3">
-          <ContasFormulario
-            editandoId={editandoId}
-            form={form}
-            setForm={setForm}
-            salvando={salvando}
-            onSubmit={salvarConta}
-            onCancel={() => iniciarCriacao(form.account_type)}
-          />
+        <div className="mt-6 flex justify-end">
+          <button
+            type="button"
+            onClick={() => {
+              if (mostrarFormulario) {
+                setMostrarFormulario(false);
+                iniciarCriacao();
+              } else {
+                iniciarCriacao();
+                setMostrarFormulario(true);
+              }
+            }}
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700"
+          >
+            {mostrarFormulario ? "Fechar painel" : "Nova conta"}
+          </button>
+        </div>
+
+        <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 lg:grid-cols-3" : ""}`}>
+          {mostrarFormulario ? (
+            <ContasFormulario
+              editandoId={editandoId}
+              form={form}
+              setForm={setForm}
+              salvando={salvando}
+              onSubmit={salvarConta}
+              onCancel={() => {
+                iniciarCriacao(form.account_type);
+                setMostrarFormulario(false);
+              }}
+            />
+          ) : null}
           <ContasLista
             carregando={carregando}
             contasFiltradas={contasFiltradas}
