@@ -17,7 +17,7 @@ export default function DashboardModalLancamento({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 p-4">
       <section className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
         <h2 className="text-xl font-black text-ink">{tipoLancamento === "income" ? "Nova receita" : "Nova despesa"}</h2>
-        <p className="mt-1 text-sm text-slate-500">Preencha os campos para registrar a transacao.</p>
+        <p className="mt-1 text-sm text-slate-500">Preencha os campos para registrar a transação.</p>
 
         <form className="mt-5 space-y-3" onSubmit={onSalvar}>
           {tipoLancamento === "expense" ? (
@@ -87,7 +87,7 @@ export default function DashboardModalLancamento({
 
           {tipoLancamento === "expense" && formTransacao.source === "credit_card" ? (
             <label className="block text-sm font-medium text-slate-700">
-              Cartao de credito
+              Cartão de Crédito
               <select
                 className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
                 value={formTransacao.credit_card || ""}

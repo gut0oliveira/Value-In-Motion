@@ -20,7 +20,7 @@ export default function DashboardCardsResumo({ insights, resumoHoje, previsao30D
             <span className="font-semibold text-green-700">{formatoMoeda.format(previsao30Dias.entradas)}</span>
           </p>
           <p className="flex items-center justify-between">
-            <span>Saidas previstas</span>
+            <span>Saídas previstas</span>
             <span className="font-semibold text-rose-700">{formatoMoeda.format(previsao30Dias.saidas)}</span>
           </p>
           <p className="flex items-center justify-between border-t border-slate-200 pt-2">

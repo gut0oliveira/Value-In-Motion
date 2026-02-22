@@ -130,11 +130,14 @@ export default function DashboardPage() {
     const receitas = transacoesFiltradas
       .filter((item) => item.transaction_type === "income")
       .reduce((total, item) => total + Number(item.amount), 0);
+
     const despesas = transacoesFiltradas
       .filter((item) => item.transaction_type === "expense")
       .reduce((total, item) => total + Number(item.amount), 0);
+
     const saldo = receitas - despesas;
     const taxaPoupanca = receitas > 0 ? (saldo / receitas) * 100 : null;
+    
     return { receitas, despesas, saldo, taxaPoupanca };
   }, [transacoesFiltradas]);
 
