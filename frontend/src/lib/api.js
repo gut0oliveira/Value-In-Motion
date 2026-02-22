@@ -91,20 +91,24 @@ export async function atualizarToken() {
   const refresh = getRefreshToken();
   if (!refresh) return false;
 
-  const response = await fetch(`${API_BASE_URL}/api/auth/token/refresh/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ refresh }),
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/auth/token/refresh/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh: refresh }), // Garante o formato { "refresh": "string" }
+    });
 
-  if (!response.ok) {
-    clearTokens();
+    if (!response.ok) {
+      clearTokens();
+      return false;
+    }
+    const data = await response.json();
+    saveTokens({ access: data.access, refresh });
+    return true;
+  } catch (error) {
+    console.error("Erro ao atualizar token:", error);
     return false;
   }
-
-  const data = await response.json();
-  saveTokens({ access: data.access, refresh });
-  return true;
 }
 
 export function logout() {
