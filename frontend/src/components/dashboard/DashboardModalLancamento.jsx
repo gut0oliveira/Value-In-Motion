@@ -127,7 +127,7 @@ export default function DashboardModalLancamento({
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
               value={formTransacao.description}
               onChange={(e) => setFormTransacao((atual) => ({ ...atual, description: e.target.value }))}
-              placeholder="Ex: salario, mercado, aluguel..."
+              placeholder="Ex: salário, mercado, aluguel..."
             />
           </label>
 

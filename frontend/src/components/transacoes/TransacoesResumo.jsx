@@ -7,7 +7,7 @@ export default function TransacoesResumo({ resumo }) {
   return (
     <div className="mt-5 grid gap-3 md:grid-cols-4">
       <article className="rounded-xl bg-slate-50 p-4">
-        <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Lancamentos</p>
+        <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Lançamentos</p>
         <p className="mt-1 text-xl font-black text-ink">{resumo.quantidade}</p>
       </article>
       <article className="rounded-xl bg-green-50 p-4">

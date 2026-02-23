@@ -65,9 +65,23 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
-DATABASES = {"default": dj_database_url.parse(DATABASE_URL, conn_max_age=600)}
+DATABASE_URL = os.getenv("DATABASE_URL")
 
+# Se a URL começar com sqlite, não precisamos de SSL
+if DATABASE_URL and DATABASE_URL.startswith('sqlite'):
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
+else:
+    # Configuração para o Neon (Postgres)
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True
+        )
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {

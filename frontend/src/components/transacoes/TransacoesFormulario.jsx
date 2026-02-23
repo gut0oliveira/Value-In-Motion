@@ -11,7 +11,7 @@ export default function TransacoesFormulario({
 }) {
   return (
     <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
-      <h2 className="text-base font-bold text-ink">{editandoId ? `Editar transacao #${editandoId}` : "Nova transacao"}</h2>
+      <h2 className="text-base font-bold text-ink">{editandoId ? `Editar transação #${editandoId}` : "Nova transação"}</h2>
       <form className="mt-3 space-y-3" onSubmit={onSubmit}>
         <label className="block text-sm">
           <span className="mb-1 block text-slate-600">Tipo</span>
@@ -41,7 +41,7 @@ export default function TransacoesFormulario({
               className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ink"
             >
               <option value="account">Saldo da conta</option>
-              <option value="credit_card">Cartao de credito</option>
+              <option value="credit_card">Cartão de crédito</option>
             </select>
           </label>
         ) : null}
@@ -66,7 +66,7 @@ export default function TransacoesFormulario({
 
         {form.transaction_type === "expense" && form.source === "credit_card" ? (
           <label className="block text-sm">
-            <span className="mb-1 block text-slate-600">Cartao de credito</span>
+            <span className="mb-1 block text-slate-600">Cartão de crédito</span>
             <select
               value={form.credit_card || ""}
               onChange={(e) => setForm((atual) => ({ ...atual, credit_card: e.target.value }))}
@@ -99,7 +99,7 @@ export default function TransacoesFormulario({
         </label>
 
         <label className="block text-sm">
-          <span className="mb-1 block text-slate-600">Descricao</span>
+          <span className="mb-1 block text-slate-600">Descrição</span>
           <input
             value={form.description}
             onChange={(e) => setForm((atual) => ({ ...atual, description: e.target.value }))}
@@ -137,7 +137,7 @@ export default function TransacoesFormulario({
             disabled={salvando}
             className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           >
-            {salvando ? "Salvando..." : editandoId ? "Salvar alteracoes" : "Criar transacao"}
+            {salvando ? "Salvando..." : editandoId ? "Salvar alterações" : "Criar transação"}
           </button>
           {editandoId ? (
             <button

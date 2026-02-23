@@ -206,9 +206,9 @@ export default function DashboardPage() {
     const lista = [];
 
     if (totais.despesas > totais.receitas) {
-      lista.push("Suas despesas estao acima das receitas no periodo atual.");
+      lista.push("Suas despesas estão acima das receitas no período atual.");
     } else {
-      lista.push("Voce esta mantendo saldo positivo no periodo atual.");
+      lista.push("Você está mantendo saldo positivo no período atual.");
     }
 
     if (gastosCategoria[0]?.percentual >= 35) {
@@ -216,9 +216,9 @@ export default function DashboardPage() {
     }
 
     if (previsao30Dias.saldo < 0) {
-      lista.push("A previsao dos proximos 30 dias esta negativa. Ajuste despesas planejadas.");
+      lista.push("A previsão dos próximos 30 dias está negativa. Ajuste despesas planejadas.");
     } else {
-      lista.push("A previsao dos proximos 30 dias esta positiva.");
+      lista.push("A previsão dos próximos 30 dias está positiva.");
     }
 
     return lista.slice(0, 3);
@@ -259,7 +259,7 @@ export default function DashboardPage() {
       return;
     }
     if (tipoLancamento === "expense" && formTransacao.source === "credit_card" && !formTransacao.credit_card) {
-      setErroModal("Selecione um cartao para a despesa.");
+      setErroModal("Selecione um cartão para a despesa.");
       return;
     }
     if (tipoLancamento === "expense" && formTransacao.source !== "credit_card" && !formTransacao.account) {
@@ -275,6 +275,7 @@ export default function DashboardPage() {
         amount: formTransacao.amount,
         occurred_on: formTransacao.occurred_on,
       };
+
       if (tipoLancamento === "income") {
         payload.account = Number(formTransacao.account);
         payload.credit_card = null;
@@ -288,6 +289,7 @@ export default function DashboardPage() {
       const transacaoCriada = await criarTransacao({
         ...payload,
       });
+      
       setTransacoes((atual) => [transacaoCriada, ...atual]);
       setModalAberto(false);
     } catch (e) {

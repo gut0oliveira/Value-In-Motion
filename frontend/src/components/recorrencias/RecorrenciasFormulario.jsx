@@ -15,7 +15,7 @@ export default function RecorrenciasFormulario({
 
       <form className="mt-3 space-y-3" onSubmit={onSubmit}>
         <label className="block text-sm">
-          <span className="mb-1 block text-slate-600">Descricao</span>
+          <span className="mb-1 block text-slate-600">Descrição</span>
           <input
             value={form.description}
             onChange={(e) => setForm((atual) => ({ ...atual, description: e.target.value }))}
@@ -37,7 +37,7 @@ export default function RecorrenciasFormulario({
             </select>
           </label>
           <label className="block text-sm">
-            <span className="mb-1 block text-slate-600">Frequencia</span>
+            <span className="mb-1 block text-slate-600">Frequência</span>
             <select
               value={form.frequency}
               onChange={(e) => setForm((atual) => ({ ...atual, frequency: e.target.value }))}
@@ -59,7 +59,7 @@ export default function RecorrenciasFormulario({
               className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
             >
               <option value="account">Conta</option>
-              <option value="credit_card">Cartao</option>
+              <option value="credit_card">Cartão</option>
             </select>
           </label>
         ) : null}
@@ -82,7 +82,7 @@ export default function RecorrenciasFormulario({
           </label>
         ) : (
           <label className="block text-sm">
-            <span className="mb-1 block text-slate-600">Cartao</span>
+            <span className="mb-1 block text-slate-600">Cartão</span>
             <select
               value={form.credit_card}
               onChange={(e) => setForm((atual) => ({ ...atual, credit_card: e.target.value }))}
@@ -127,7 +127,7 @@ export default function RecorrenciasFormulario({
             />
           </label>
           <label className="block text-sm">
-            <span className="mb-1 block text-slate-600">Inicio</span>
+            <span className="mb-1 block text-slate-600">Início</span>
             <input
               type="date"
               value={form.start_date}
@@ -153,7 +153,7 @@ export default function RecorrenciasFormulario({
             checked={form.active}
             onChange={(e) => setForm((atual) => ({ ...atual, active: e.target.checked }))}
           />
-          Recorrencia ativa
+          Recorrência ativa
         </label>
 
         <div className="flex gap-2">
@@ -162,7 +162,7 @@ export default function RecorrenciasFormulario({
             disabled={salvando}
             className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           >
-            {salvando ? "Salvando..." : editandoId ? "Salvar alteracoes" : "Criar recorrencia"}
+            {salvando ? "Salvando..." : editandoId ? "Salvar alterações" : "Criar recorrência"}
           </button>
           {editandoId ? (
             <button

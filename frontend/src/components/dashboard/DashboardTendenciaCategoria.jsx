@@ -9,7 +9,7 @@ export default function DashboardTendenciaCategoria({ gastosCategoria, formatoMo
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-base font-bold text-ink">Gastos por categoria</h2>
-            <p className="mt-1 text-xs text-slate-500">Comparativo das categorias com maior impacto no periodo.</p>
+            <p className="mt-1 text-xs text-slate-500">Comparativo das categorias com maior impacto no período.</p>
           </div>
           <div className="flex items-center gap-4 text-[11px] text-slate-500">
             <span className="inline-flex items-center gap-1">

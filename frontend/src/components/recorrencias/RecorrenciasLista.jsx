@@ -26,14 +26,14 @@ export default function RecorrenciasLista({
     <article className="rounded-2xl border border-slate-200 bg-white p-4 lg:col-span-2">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-base font-bold text-ink">Recorrencias cadastradas</h2>
-          <p className="mt-1 text-xs text-slate-500">Regras automaticas para receitas e despesas recorrentes.</p>
+          <h2 className="text-base font-bold text-ink">Recorrências cadastradas</h2>
+          <p className="mt-1 text-xs text-slate-500">Regras automáticas para receitas e despesas recorrentes.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <input
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            placeholder="Buscar recorrencia"
+            placeholder="Buscar recorrência"
             className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
           />
           <select
@@ -50,7 +50,7 @@ export default function RecorrenciasLista({
 
       {recorrenciasFiltradas.length === 0 ? (
         <p className="mt-4 rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600">
-          Nenhuma recorrencia encontrada para esse filtro.
+          Nenhuma recorrência encontrada para esse filtro.
         </p>
       ) : (
         <ul className="mt-4 space-y-2">
@@ -69,7 +69,7 @@ export default function RecorrenciasLista({
                   | {nomeCategoriaPorId[item.category] || `Categoria #${item.category}`}
                 </p>
                 <p className="text-xs text-slate-500">
-                  Inicio {item.start_date}
+                  Início {item.start_date}
                   {item.end_date ? ` | Fim ${item.end_date}` : ""}
                 </p>
               </div>
