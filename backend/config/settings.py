@@ -67,19 +67,24 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Se a URL começar com sqlite, não precisamos de SSL
+# Postgres local geralmente nao expoe SSL; remoto deve exigir SSL.
+db_host_local = False
+if DATABASE_URL:
+    db_url_l = DATABASE_URL.lower()
+    db_host_local = "@localhost" in db_url_l or "@127.0.0.1" in db_url_l
+
+# Se a URL comecar com sqlite, nao precisamos de SSL
 if DATABASE_URL and DATABASE_URL.startswith('sqlite'):
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
     }
 else:
-    # Configuração para o Neon (Postgres)
     DATABASES = {
         "default": dj_database_url.config(
             default=DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
-            ssl_require=True
+            ssl_require=not db_host_local
         )
     }
 

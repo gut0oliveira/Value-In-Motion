@@ -1,4 +1,11 @@
-import { clearTokens, getAccessToken, getRefreshToken, saveTokens, saveUsername } from "./auth";
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  isAccessTokenExpired,
+  saveTokens,
+  saveUsername,
+} from "./auth";
 
 const API_BASE_URL = "http://127.0.0.1:8000";
 let refreshPromise = null;
@@ -21,6 +28,13 @@ async function garantirRefreshToken() {
 }
 
 async function requisicao(caminho, opcoes = {}, tentouRefresh = false) {
+  const precisaAuth = caminho.startsWith("/api/financas/") || caminho === "/api/usuarios/eu/";
+
+  if (precisaAuth && !tentouRefresh && isAccessTokenExpired() && getRefreshToken()) {
+    const refreshed = await garantirRefreshToken();
+    if (refreshed) return requisicao(caminho, opcoes, true);
+  }
+
   const token = getAccessToken();
   const headers = {
     "Content-Type": "application/json",

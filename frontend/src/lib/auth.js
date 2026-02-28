@@ -2,6 +2,7 @@ const ACCESS_KEY = "vimo_access_token";
 const REFRESH_KEY = "vimo_refresh_token";
 const FIRST_USERNAME_KEY = "vimo_first_username";
 const LAST_USERNAME_KEY = "vimo_last_username";
+const JWT_EXP_SKEW_SECONDS = 30;
 
 function tokenValido(valor) {
   if (typeof valor !== "string") return false;
@@ -9,6 +10,28 @@ function tokenValido(valor) {
   if (!limpo) return false;
   if (limpo === "undefined" || limpo === "null") return false;
   return true;
+}
+
+function decodeJwtPayload(token) {
+  if (!tokenValido(token)) return null;
+  const partes = token.split(".");
+  if (partes.length !== 3) return null;
+
+  try {
+    const base64 = partes[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
+    const json = atob(padded);
+    return JSON.parse(json);
+  } catch {
+    return null;
+  }
+}
+
+function tokenExpirado(token) {
+  const payload = decodeJwtPayload(token);
+  if (!payload || typeof payload.exp !== "number") return true;
+  const agora = Math.floor(Date.now() / 1000);
+  return payload.exp <= agora + JWT_EXP_SKEW_SECONDS;
 }
 
 export function getAccessToken() {
@@ -69,5 +92,12 @@ export function clearTokens() {
 }
 
 export function isAuthenticated() {
-  return Boolean(getAccessToken() && getRefreshToken());
+  const refresh = getRefreshToken();
+  return Boolean(refresh && !tokenExpirado(refresh));
+}
+
+export function isAccessTokenExpired() {
+  const access = getAccessToken();
+  if (!access) return true;
+  return tokenExpirado(access);
 }
