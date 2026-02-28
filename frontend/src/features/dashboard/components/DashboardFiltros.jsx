@@ -1,5 +1,5 @@
 const OPCOES_PERIODO = [
-  { valor: "mes", label: "Mes" },
+  { valor: "mes", label: "Mês" },
   { valor: "7d", label: "7 dias" },
   { valor: "30d", label: "30 dias" },
   { valor: "90d", label: "90 dias" },

@@ -115,10 +115,10 @@ export default function ContasPage() {
   return (
     <main className="mx-auto max-w-7xl">
       <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Módulo</p>
         <h1 className="mt-2 text-2xl font-black text-ink">Contas</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Gerencie suas contas para organizar onde as transacoes acontecem e consolidar o controle financeiro.
+          Gerencie suas contas para organizar onde as transações acontecem e consolidar o controle financeiro.
         </p>
 
         <ContasResumo resumo={resumo} />

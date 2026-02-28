@@ -31,8 +31,8 @@ export default function TransacoesLista({
     <article className="rounded-2xl border border-slate-200 bg-white p-4 lg:col-span-2">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-base font-bold text-ink">Historico de transacoes</h2>
-          <p className="mt-1 text-xs text-slate-500">Filtre por conta, categoria, tipo e descricao.</p>
+          <h2 className="text-base font-bold text-ink">Histórico de transações</h2>
+          <p className="mt-1 text-xs text-slate-500">Filtre por conta, categoria, tipo e descrição.</p>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export default function TransacoesLista({
         <input
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          placeholder="Buscar descricao"
+          placeholder="Buscar descrição"
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ink"
         />
         <select
@@ -86,7 +86,7 @@ export default function TransacoesLista({
         </div>
       ) : transacoesFiltradas.length === 0 ? (
         <p className="mt-4 rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600">
-          Nenhuma transacao encontrada para esse filtro.
+          Nenhuma transação encontrada para esse filtro.
         </p>
       ) : (
         <ul className="mt-4 space-y-2">
@@ -96,11 +96,11 @@ export default function TransacoesLista({
               className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 px-3 py-3"
             >
               <div className="min-w-0">
-                <p className="truncate font-semibold text-ink">{item.description || "Sem descricao"}</p>
+                <p className="truncate font-semibold text-ink">{item.description || "Sem descrição"}</p>
                 <p className="text-xs text-slate-500">
                   {item.occurred_on} |{" "}
                   {item.credit_card
-                    ? nomeCartaoPorId[item.credit_card] || `Cartao #${item.credit_card}`
+                    ? nomeCartaoPorId[item.credit_card] || `Cartão #${item.credit_card}`
                     : nomeContaPorId[item.account] || `Conta #${item.account}`}{" "}
                   |{" "}
                   {nomeCategoriaPorId[item.category] || `Categoria #${item.category}`}

@@ -39,7 +39,7 @@ export default function ContasFormulario({ editandoId, form, setForm, salvando, 
             disabled={salvando}
             className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           >
-            {salvando ? "Salvando..." : editandoId ? "Salvar alteracoes" : "Criar conta"}
+            {salvando ? "Salvando..." : editandoId ? "Salvar alterações" : "Criar conta"}
           </button>
           {editandoId ? (
             <button

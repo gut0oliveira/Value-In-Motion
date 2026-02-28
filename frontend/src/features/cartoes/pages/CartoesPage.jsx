@@ -189,7 +189,7 @@ export default function CartoesPage() {
   async function salvarCartao(evento) {
     evento.preventDefault();
     if (!form.name.trim()) {
-      setErro("Informe o nome do cartao.");
+      setErro("Informe o nome do cartão.");
       return;
     }
     const fechamento = Number(form.closing_day);
@@ -228,8 +228,8 @@ export default function CartoesPage() {
 
   async function removerCartao(item) {
     const confirmou = await confirmar({
-      titulo: "Excluir cartao",
-      mensagem: `Remover o cartao "${item.name}"?`,
+      titulo: "Excluir cartão",
+      mensagem: `Remover o cartão "${item.name}"?`,
       textoConfirmar: "Excluir",
     });
     if (!confirmou) return;
@@ -249,11 +249,11 @@ export default function CartoesPage() {
   async function salvarParcelamento(evento) {
     evento.preventDefault();
     if (!formParcelamento.credit_card || !formParcelamento.category || !formParcelamento.description.trim()) {
-      setErro("Preencha cartao, categoria e descricao do parcelamento.");
+      setErro("Preencha cartão, categoria e descrição do parcelamento.");
       return;
     }
     if (Number(formParcelamento.total_amount) <= 0 || Number(formParcelamento.installments_count) < 1) {
-      setErro("Informe valor total e quantidade de parcelas validos.");
+      setErro("Informe valor total e quantidade de parcelas válidos.");
       return;
     }
     setSalvandoParcelamento(true);

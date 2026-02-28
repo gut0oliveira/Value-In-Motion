@@ -59,8 +59,8 @@ export default function CartoesLista({
     <article className="rounded-2xl border border-slate-200 bg-white p-4 lg:col-span-2">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h2 className="text-base font-bold text-ink">Cartoes cadastrados</h2>
-          <p className="mt-1 text-xs text-slate-500">Configure limite, fechamento e vencimento por cartao.</p>
+          <h2 className="text-base font-bold text-ink">Cartões cadastrados</h2>
+          <p className="mt-1 text-xs text-slate-500">Configure limite, fechamento e vencimento por cartão.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <input
@@ -89,7 +89,7 @@ export default function CartoesLista({
         </div>
       ) : cartoesFiltrados.length === 0 ? (
         <p className="mt-4 rounded-lg bg-slate-50 px-4 py-3 text-sm text-slate-600">
-          Nenhum cartao encontrado para esse filtro.
+          Nenhum cartão encontrado para esse filtro.
         </p>
       ) : (
         <ul className="mt-4 space-y-2">
@@ -117,7 +117,7 @@ export default function CartoesLista({
                   </div>
                   <p className="text-[11px] text-slate-500">{(item.percentualUso || 0).toFixed(1)}% do limite utilizado</p>
                   <p className="text-xs font-medium text-slate-600">
-                    Proxima fatura: fecha em {formatoData.format(fatura.proximoFechamento)} e vence em{" "}
+                    Próxima fatura: fecha em {formatoData.format(fatura.proximoFechamento)} e vence em{" "}
                     {formatoData.format(fatura.proximoVencimento)}
                   </p>
                 </div>

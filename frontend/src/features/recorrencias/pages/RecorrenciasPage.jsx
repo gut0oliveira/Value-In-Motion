@@ -156,11 +156,11 @@ export default function RecorrenciasPage() {
   async function salvarRecorrencia(evento) {
     evento.preventDefault();
     if (!form.description.trim()) {
-      setErro("Informe a descricao da recorrencia.");
+      setErro("Informe a descrição da recorrência.");
       return;
     }
     if (!form.category || !form.amount || Number(form.amount) <= 0) {
-      setErro("Informe categoria e valor valido.");
+      setErro("Informe categoria e valor válido.");
       return;
     }
     if (form.transaction_type === "income" && !form.account) {
@@ -172,7 +172,7 @@ export default function RecorrenciasPage() {
       return;
     }
     if (form.transaction_type === "expense" && form.source === "credit_card" && !form.credit_card) {
-      setErro("Despesa recorrente por cartao precisa de cartao.");
+      setErro("Despesa recorrente por cartão precisa de cartão.");
       return;
     }
 
@@ -214,8 +214,8 @@ export default function RecorrenciasPage() {
 
   async function removerRecorrencia(item) {
     const confirmou = await confirmar({
-      titulo: "Excluir recorrencia",
-      mensagem: `Remover a recorrencia "${item.description}"?`,
+      titulo: "Excluir reccorrência",
+      mensagem: `Remover a recorrência "${item.description}"?`,
       textoConfirmar: "Excluir",
     });
     if (!confirmou) return;
@@ -243,8 +243,8 @@ export default function RecorrenciasPage() {
   return (
     <main className="mx-auto max-w-7xl">
       <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
-        <h1 className="mt-2 text-2xl font-black text-ink">Recorrencias</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Módulo</p>
+        <h1 className="mt-2 text-2xl font-black text-ink">Recorrências</h1>
         <p className="mt-2 text-sm text-slate-600">
           Defina regras recorrentes para despesas e receitas fixas. Esta tela salva as regras localmente por enquanto.
         </p>
@@ -274,7 +274,7 @@ export default function RecorrenciasPage() {
                 }}
                 className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700"
               >
-                {mostrarFormulario ? "Fechar painel" : "Nova recorrencia"}
+                {mostrarFormulario ? "Fechar painel" : "Nova recorrência"}
               </button>
             </div>
 

@@ -71,7 +71,7 @@ export default function CartoesFormulario({ editandoId, form, setForm, salvando,
             disabled={salvando}
             className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
           >
-            {salvando ? "Salvando..." : editandoId ? "Salvar alteracoes" : "Criar cartao"}
+            {salvando ? "Salvando..." : editandoId ? "Salvar alterações" : "Criar cartão"}
           </button>
           {editandoId ? (
             <button

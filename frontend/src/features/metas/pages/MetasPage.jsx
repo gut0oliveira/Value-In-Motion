@@ -142,7 +142,7 @@ export default function MetasPage() {
       return;
     }
     if (Number(form.current_amount || 0) < 0) {
-      setErro("O valor atual nao pode ser negativo.");
+      setErro("O valor atual não pode ser negativo.");
       return;
     }
 
@@ -240,7 +240,7 @@ export default function MetasPage() {
   return (
     <main className="mx-auto max-w-7xl">
       <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Módulo</p>
         <h1 className="mt-2 text-2xl font-black text-ink">Metas</h1>
         <p className="mt-2 text-sm text-slate-600">
           Defina objetivos financeiros com prazo e acompanhe o progresso de cada meta.
@@ -252,7 +252,7 @@ export default function MetasPage() {
             <p className="mt-1 text-xl font-black text-ink">{resumo.total}</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-            <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Concluidas</p>
+            <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Concluídas</p>
             <p className="mt-1 text-xl font-black text-emerald-700">{resumo.concluidas}</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
@@ -260,7 +260,7 @@ export default function MetasPage() {
             <p className="mt-1 text-xl font-black text-slate-700">{resumo.pausadas}</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-            <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Progresso medio</p>
+            <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Progresso médio</p>
             <p className="mt-1 text-xl font-black text-ink">{Math.round(resumo.progressoMedio)}%</p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
@@ -286,7 +286,7 @@ export default function MetasPage() {
             >
               <option value="all">Todos os status</option>
               <option value="in_progress">Em andamento</option>
-              <option value="completed">Concluidas</option>
+              <option value="completed">Concluídas</option>
               <option value="paused">Pausadas</option>
             </select>
           </div>
@@ -318,7 +318,7 @@ export default function MetasPage() {
                   <input
                     value={form.title}
                     onChange={(e) => setForm((atual) => ({ ...atual, title: e.target.value }))}
-                    placeholder="Ex.: Reserva de emergencia"
+                    placeholder="Ex.: Reserva de emergência"
                     className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ink"
                   />
                 </label>
@@ -367,14 +367,14 @@ export default function MetasPage() {
                       className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ink"
                     >
                       <option value="high">Alta</option>
-                      <option value="medium">Media</option>
+                      <option value="medium">Média</option>
                       <option value="low">Baixa</option>
                     </select>
                   </label>
                 </div>
 
                 <label className="block text-sm">
-                  <span className="mb-1 block text-slate-600">Observacoes</span>
+                  <span className="mb-1 block text-slate-600">Observações</span>
                   <textarea
                     rows={3}
                     value={form.notes}
@@ -395,7 +395,7 @@ export default function MetasPage() {
 
                 <div className="flex gap-2">
                   <button type="submit" className="rounded-lg bg-ink px-4 py-2 text-sm font-semibold text-white">
-                    {editandoId ? "Salvar alteracoes" : "Salvar meta"}
+                    {editandoId ? "Salvar alterações" : "Salvar meta"}
                   </button>
                   <button
                     type="button"
@@ -431,7 +431,7 @@ export default function MetasPage() {
                           {item.due_date
                             ? item.prazoDias >= 0
                               ? `${item.prazoDias} dias para o prazo`
-                              : `Prazo vencido ha ${Math.abs(item.prazoDias)} dias`
+                              : `Prazo vencido a ${Math.abs(item.prazoDias)} dias`
                             : "Sem prazo definido"}
                         </p>
                       </div>

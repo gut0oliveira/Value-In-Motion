@@ -1,4 +1,4 @@
-export default function DashboardCardsResumo({ insights, resumoHoje, previsao30Dias, formatoMoeda }) {
+export default function DashboardCardsResumo({ insights, previsao30Dias, formatoMoeda }) {
   return (
     <section className="mt-4 grid gap-4 lg:grid-cols-2">
       <article className="rounded-2xl border border-slate-200 bg-white p-5">

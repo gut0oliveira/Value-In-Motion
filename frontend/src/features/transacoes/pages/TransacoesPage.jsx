@@ -151,7 +151,7 @@ export default function TransacoesPage() {
       return;
     }
     if (form.transaction_type === "expense" && form.source === "credit_card" && !form.credit_card) {
-      setErro("Selecione um cartao para despesa.");
+      setErro("Selecione um cartão para despesa.");
       return;
     }
     if (form.transaction_type === "expense" && form.source !== "credit_card" && !form.account) {
@@ -196,8 +196,8 @@ export default function TransacoesPage() {
 
   async function removerTransacao(item) {
     const confirmou = await confirmar({
-      titulo: "Excluir transacao",
-      mensagem: "Remover esta transacao?",
+      titulo: "Excluir transação",
+      mensagem: "Remover esta transação?",
       textoConfirmar: "Excluir",
     });
     if (!confirmou) return;
@@ -215,12 +215,12 @@ export default function TransacoesPage() {
     <main className="mx-auto max-w-7xl">
       <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
-        <h1 className="mt-2 text-2xl font-black text-ink">Transacoes</h1>
+        <h1 className="mt-2 text-2xl font-black text-ink">Transações</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Consulte e filtre suas movimentacoes em um unico lugar, com separacao por conta, categoria e tipo.
+          Consulte e filtre suas movimentações em um único lugar, com separacao por conta, categoria e tipo.
         </p>
         <p className="mt-2 rounded-lg bg-sky-50 px-3 py-2 text-sm text-sky-700">
-          Novas transacoes devem ser lancadas no Dashboard pelos botoes "Nova receita" e "Nova despesa".
+          Novas transações devem ser lançadas no Dashboard pelos botoes "Nova receita" e "Nova despesa".
         </p>
 
         <TransacoesResumo resumo={resumo} />
@@ -239,7 +239,7 @@ export default function TransacoesPage() {
             }}
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700"
           >
-            {mostrarPainelEdicao ? "Fechar painel de edicao" : "Abrir painel de edicao"}
+            {mostrarPainelEdicao ? "Fechar painel de edição" : "Abrir painel de edição"}
           </button>
         </div>
 
@@ -258,9 +258,9 @@ export default function TransacoesPage() {
             />
           ) : mostrarPainelEdicao ? (
             <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
-              <h2 className="text-base font-bold text-ink">Edicao de transacao</h2>
+              <h2 className="text-base font-bold text-ink">Edição de transação</h2>
               <p className="mt-2 text-sm text-slate-600">
-                Clique em "Editar" em uma transacao da lista para carregar os dados neste painel.
+                Clique em "Editar" em uma transação da lista para carregar os dados neste painel.
               </p>
             </article>
           ) : (
