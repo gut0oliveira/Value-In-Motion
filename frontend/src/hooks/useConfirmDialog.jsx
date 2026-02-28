@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ConfirmDialog from "../components/ConfirmDialog";
+import ConfirmDialog from "../features/common/components/ConfirmDialog";
 
 export default function useConfirmDialog() {
   const [estado, setEstado] = useState({
@@ -44,3 +44,4 @@ export default function useConfirmDialog() {
 
   return { confirmar, dialogo };
 }
+

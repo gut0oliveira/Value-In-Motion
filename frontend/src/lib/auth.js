@@ -3,17 +3,39 @@ const REFRESH_KEY = "vimo_refresh_token";
 const FIRST_USERNAME_KEY = "vimo_first_username";
 const LAST_USERNAME_KEY = "vimo_last_username";
 
+function tokenValido(valor) {
+  if (typeof valor !== "string") return false;
+  const limpo = valor.trim();
+  if (!limpo) return false;
+  if (limpo === "undefined" || limpo === "null") return false;
+  return true;
+}
+
 export function getAccessToken() {
-  return localStorage.getItem(ACCESS_KEY);
+  const token = localStorage.getItem(ACCESS_KEY);
+  return tokenValido(token) ? token : null;
 }
 
 export function getRefreshToken() {
-  return localStorage.getItem(REFRESH_KEY);
+  const token = localStorage.getItem(REFRESH_KEY);
+  return tokenValido(token) ? token : null;
 }
 
 export function saveTokens(tokens) {
-  localStorage.setItem(ACCESS_KEY, tokens.access);
-  localStorage.setItem(REFRESH_KEY, tokens.refresh);
+  const access = typeof tokens?.access === "string" ? tokens.access : "";
+  const refresh = typeof tokens?.refresh === "string" ? tokens.refresh : "";
+
+  if (tokenValido(access)) {
+    localStorage.setItem(ACCESS_KEY, access);
+  } else {
+    localStorage.removeItem(ACCESS_KEY);
+  }
+
+  if (tokenValido(refresh)) {
+    localStorage.setItem(REFRESH_KEY, refresh);
+  } else {
+    localStorage.removeItem(REFRESH_KEY);
+  }
 }
 
 export function saveUsername(firstUsername, lastUsername = "") {
@@ -47,5 +69,5 @@ export function clearTokens() {
 }
 
 export function isAuthenticated() {
-  return Boolean(getAccessToken());
+  return Boolean(getAccessToken() && getRefreshToken());
 }

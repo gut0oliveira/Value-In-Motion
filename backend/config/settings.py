@@ -28,9 +28,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "rest_framework",
-    "core.apps.CoreConfig",
-    "users.apps.UsersConfig",
-    "finance.apps.FinanceConfig",
+    "apps.core.apps.CoreConfig",
+    "apps.users.apps.UsersConfig",
+    "apps.finance.apps.FinanceConfig",
 ]
 
 
@@ -119,6 +119,12 @@ CORS_ALLOWED_ORIGINS = [
         "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000,http://127.0.0.1:3000",
     ).split(",")
     if origin.strip()
+]
+
+# Permite qualquer porta local no desenvolvimento (ex.: Vite em 5173/5174/5175).
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http://localhost:\d+$",
+    r"^http://127\.0\.0\.1:\d+$",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
