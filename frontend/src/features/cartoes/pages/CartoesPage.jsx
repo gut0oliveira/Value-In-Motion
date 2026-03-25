@@ -327,7 +327,7 @@ export default function CartoesPage() {
 
   return (
     <main className="mx-auto max-w-7xl">
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
+      <section className="rounded-2xl border border-slate-200 bg-white p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
         <h1 className="mt-2 text-2xl font-black text-ink">Cartões de crédito</h1>
         <p className="mt-2 text-sm text-slate-600">
@@ -364,7 +364,7 @@ export default function CartoesPage() {
           </div>
 
           {mostrarParcelamento ? (
-            <form className="mt-4 grid gap-2 md:grid-cols-3" onSubmit={salvarParcelamento}>
+            <form className="mt-4 grid gap-2 grid-cols-3" onSubmit={salvarParcelamento}>
               <select
                 value={formParcelamento.credit_card}
                 onChange={(e) => setFormParcelamento((atual) => ({ ...atual, credit_card: e.target.value }))}
@@ -419,7 +419,7 @@ export default function CartoesPage() {
                 onChange={(e) => setFormParcelamento((atual) => ({ ...atual, purchase_date: e.target.value }))}
                 className="rounded-lg border border-slate-300 px-3 py-2 text-sm"
               />
-              <div className="md:col-span-3">
+              <div className="col-span-3">
                 <button
                   type="submit"
                   disabled={salvandoParcelamento}
@@ -482,7 +482,7 @@ export default function CartoesPage() {
           </button>
         </div>
 
-        <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 lg:grid-cols-3" : ""}`}>
+        <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 grid-cols-3" : ""}`}>
           {mostrarFormulario ? (
             <CartoesFormulario
               editandoId={editandoId}
@@ -512,3 +512,4 @@ export default function CartoesPage() {
     </main>
   );
 }
+

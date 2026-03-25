@@ -316,7 +316,7 @@ export default function DashboardPage() {
       />
 
       {carregando ? (
-        <section className="mt-6 grid gap-4 md:grid-cols-5">
+        <section className="mt-6 grid gap-4 grid-cols-5">
           {["a", "b", "c", "d", "e"].map((item) => (
             <div key={item} className="h-24 animate-pulse rounded-2xl bg-slate-200" />
           ))}
@@ -372,3 +372,4 @@ export default function DashboardPage() {
     </main>
   );
 }
+

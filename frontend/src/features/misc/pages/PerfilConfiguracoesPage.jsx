@@ -61,7 +61,7 @@ export default function PerfilConfiguracoesPage() {
   }
 
   return (
-    <main className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
+    <main className="rounded-2xl border border-slate-200 bg-white p-8">
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
       <h1 className="mt-2 text-2xl font-black text-ink">Perfil e Configuracoes</h1>
       <p className="mt-2 text-sm text-slate-600">
@@ -71,7 +71,7 @@ export default function PerfilConfiguracoesPage() {
       {mensagem ? <p className="mt-4 rounded-lg bg-emerald-50 px-4 py-3 text-sm text-emerald-700">{mensagem}</p> : null}
       {erroSenha ? <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{erroSenha}</p> : null}
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-6 grid gap-4 grid-cols-2">
         <section className="rounded-xl border border-slate-200 bg-slate-50 p-4">
           <h2 className="text-base font-bold text-ink">Dados do perfil</h2>
           <form className="mt-3 space-y-3" onSubmit={salvarPerfil}>
@@ -96,7 +96,7 @@ export default function PerfilConfiguracoesPage() {
               />
             </label>
 
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid gap-2 grid-cols-2">
               <label className="block text-sm">
                 <span className="mb-1 block text-slate-600">Idioma</span>
                 <select
@@ -187,4 +187,5 @@ export default function PerfilConfiguracoesPage() {
     </main>
   );
 }
+
 

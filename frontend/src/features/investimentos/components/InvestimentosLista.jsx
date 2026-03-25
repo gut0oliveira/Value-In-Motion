@@ -24,7 +24,7 @@ export default function InvestimentosLista({
   onDelete,
 }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 lg:col-span-2">
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 col-span-2">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-base font-bold text-ink">Carteira</h2>
@@ -109,3 +109,4 @@ export default function InvestimentosLista({
     </article>
   );
 }
+

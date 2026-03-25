@@ -1,6 +1,6 @@
 export default function ContasResumo({ resumo }) {
   return (
-    <div className="mt-5 grid gap-3 md:grid-cols-3">
+    <div className="mt-5 grid gap-3 grid-cols-3">
       <article className="rounded-xl bg-slate-50 p-4">
         <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Total de contas</p>
         <p className="mt-1 text-xl font-black text-ink">{resumo.total}</p>
@@ -18,3 +18,4 @@ export default function ContasResumo({ resumo }) {
     </div>
   );
 }
+

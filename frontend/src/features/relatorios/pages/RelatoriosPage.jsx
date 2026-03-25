@@ -86,7 +86,7 @@ export default function RelatoriosPage() {
   }
 
   return (
-    <main className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
+    <main className="rounded-2xl border border-slate-200 bg-white p-8">
       <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
       <h1 className="mt-2 text-2xl font-black text-ink">Relatorios</h1>
       <p className="mt-2 text-sm text-slate-600">
@@ -112,7 +112,7 @@ export default function RelatoriosPage() {
       {relatorio ? (
         <section className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
           <h2 className="text-base font-bold text-ink">Resumo integrado do sistema</h2>
-          <div className="mt-3 grid gap-3 md:grid-cols-4">
+          <div className="mt-3 grid gap-3 grid-cols-4">
             <article className="rounded-lg border border-slate-200 bg-white p-3">
               <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Investimentos</p>
               <p className="mt-1 text-sm text-slate-700">
@@ -172,3 +172,4 @@ export default function RelatoriosPage() {
     </main>
   );
 }
+

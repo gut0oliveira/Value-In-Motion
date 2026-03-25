@@ -9,7 +9,7 @@ export default function RelatoriosResumo({ resumo }) {
   ];
 
   return (
-    <section className="mt-6 grid gap-3 md:grid-cols-4">
+    <section className="mt-6 grid gap-3 grid-cols-4">
       {cards.map((card) => (
         <article key={card.titulo} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
           <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">{card.titulo}</p>
@@ -19,3 +19,4 @@ export default function RelatoriosResumo({ resumo }) {
     </section>
   );
 }
+

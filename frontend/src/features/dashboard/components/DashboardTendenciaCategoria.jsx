@@ -27,7 +27,7 @@ export default function DashboardTendenciaCategoria({ gastosCategoria, formatoMo
           <p className="mt-4 text-sm text-slate-600">Nenhuma despesa para exibir.</p>
         ) : (
           <>
-            <div className="mt-4 grid gap-3 md:grid-cols-3">
+            <div className="mt-4 grid gap-3 grid-cols-3">
               <div className="rounded-xl bg-slate-50 p-3">
                 <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Total</p>
                 <p className="mt-1 text-base font-bold text-ink">{formatoMoeda.format(totalGastos)}</p>
@@ -80,3 +80,4 @@ export default function DashboardTendenciaCategoria({ gastosCategoria, formatoMo
     </section>
   );
 }
+

@@ -9,7 +9,7 @@ const TIPOS_ATIVO = [
 
 export default function InvestimentosFormulario({ editandoId, form, setForm, salvando, onSubmit, onCancel }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
+    <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 col-span-1">
       <h2 className="text-base font-bold text-ink">
         {editandoId ? `Editar investimento #${editandoId}` : "Novo investimento"}
       </h2>
@@ -46,7 +46,7 @@ export default function InvestimentosFormulario({ editandoId, form, setForm, sal
             className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-ink"
           />
         </label>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <div className="grid gap-2 grid-cols-2">
           <label className="block text-sm">
             <span className="mb-1 block text-slate-600">Valor investido</span>
             <input
@@ -101,3 +101,4 @@ export default function InvestimentosFormulario({ editandoId, form, setForm, sal
     </article>
   );
 }
+

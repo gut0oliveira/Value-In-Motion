@@ -16,7 +16,7 @@ export default function RelatoriosPainelExportacao({
         Selecione periodo, conta e categoria para gerar os relatorios e exportar os dados.
       </p>
 
-      <div className="mt-4 grid gap-2 md:grid-cols-3">
+      <div className="mt-4 grid gap-2 grid-cols-3">
         <label className="block text-sm">
           <span className="mb-1 block text-slate-600">Data inicial</span>
           <input
@@ -121,3 +121,4 @@ export default function RelatoriosPainelExportacao({
     </section>
   );
 }
+

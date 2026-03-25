@@ -28,7 +28,7 @@ export default function TransacoesLista({
   onDelete,
 }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-4 lg:col-span-2">
+    <article className="rounded-2xl border border-slate-200 bg-white p-4 col-span-2">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-base font-bold text-ink">Histórico de transações</h2>
@@ -36,7 +36,7 @@ export default function TransacoesLista({
         </div>
       </div>
 
-      <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-3 grid gap-2 grid-cols-4">
         <input
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
@@ -144,3 +144,4 @@ export default function TransacoesLista({
     </article>
   );
 }
+

@@ -1,6 +1,6 @@
 export default function DashboardHeader({ nomeUsuario, onNovaReceita, onNovaDespesa }) {
   return (
-    <header className="flex flex-col gap-4 rounded-2xl bg-ink px-6 py-5 text-white md:flex-row md:items-center md:justify-between">
+    <header className="flex items-center justify-between gap-4 rounded-2xl bg-ink px-6 py-5 text-white">
       <div>
         <p className="text-xs uppercase tracking-[0.2em] text-sky-300">Painel financeiro</p>
         <h1 className="mt-1 text-2xl font-black uppercase">{nomeUsuario || "Usuário"}</h1>
@@ -22,3 +22,4 @@ export default function DashboardHeader({ nomeUsuario, onNovaReceita, onNovaDesp
     </header>
   );
 }
+

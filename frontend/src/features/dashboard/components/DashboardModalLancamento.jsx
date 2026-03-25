@@ -23,7 +23,7 @@ export default function DashboardModalLancamento({
           {tipoLancamento === "expense" ? (
             <fieldset className="block text-sm font-medium text-slate-700">
               <legend>Origem da despesa</legend>
-              <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="mt-2 grid grid-cols-2 gap-2">
                 <label
                   className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2 transition ${
                     (formTransacao.source || "account") === "account"
@@ -131,7 +131,7 @@ export default function DashboardModalLancamento({
             />
           </label>
 
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 grid-cols-2">
             <label className="block text-sm font-medium text-slate-700">
               Valor
               <input
@@ -180,3 +180,4 @@ export default function DashboardModalLancamento({
     </div>
   );
 }
+

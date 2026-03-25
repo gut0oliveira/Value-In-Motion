@@ -164,7 +164,7 @@ export default function InvestimentosPage() {
 
   return (
     <main className="mx-auto max-w-7xl">
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
+      <section className="rounded-2xl border border-slate-200 bg-white p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
         <h1 className="mt-2 text-2xl font-black text-ink">Investimentos</h1>
         <p className="mt-2 text-sm text-slate-600">
@@ -193,7 +193,7 @@ export default function InvestimentosPage() {
           </button>
         </div>
 
-        <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 lg:grid-cols-3" : ""}`}>
+        <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 grid-cols-3" : ""}`}>
           {mostrarFormulario ? (
             <InvestimentosFormulario
               editandoId={editandoId}
@@ -223,3 +223,4 @@ export default function InvestimentosPage() {
     </main>
   );
 }
+

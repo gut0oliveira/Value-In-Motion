@@ -14,27 +14,27 @@ export default function DashboardResumoKpis({ totais, saldoContas, formatoMoeda 
       <div className="mb-2 flex items-center justify-between">
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Resumo</p>
       </div>
-      <div className="grid gap-3 md:grid-cols-6 lg:grid-cols-6">
+      <div className="grid gap-3 grid-cols-6">
         <KpiCard
-          className="md:col-span-6 lg:col-span-6"
+          className="col-span-6"
           titulo="Saldo em conta atual"
           valor={formatoMoeda.format(saldoContas)}
           destaque="text-ink"
         />
         <KpiCard
-          className="md:col-span-2 lg:col-span-2"
+          className="col-span-2"
           titulo="Receitas"
           valor={formatoMoeda.format(totais.receitas)}
           destaque="text-green-700"
         />
         <KpiCard
-          className="md:col-span-2 lg:col-span-2"
+          className="col-span-2"
           titulo="Despesas"
           valor={formatoMoeda.format(totais.despesas)}
           destaque="text-rose-700"
         />
         <KpiCard
-          className="md:col-span-2 lg:col-span-2"
+          className="col-span-2"
           titulo="Taxa poupança (30 dias)"
           valor={totais.taxaPoupanca === null ? "-" : `${totais.taxaPoupanca.toFixed(1)}%`}
           destaque="text-sky-700"
@@ -43,4 +43,5 @@ export default function DashboardResumoKpis({ totais, saldoContas, formatoMoeda 
     </section>
   );
 }
+
 

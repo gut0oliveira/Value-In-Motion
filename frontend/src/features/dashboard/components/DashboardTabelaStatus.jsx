@@ -7,12 +7,12 @@ export default function DashboardTabelaStatus({
   visaoApi,
 }) {
   return (
-    <section className="mt-4 grid gap-4 lg:grid-cols-1">
-      <article className="rounded-2xl border border-slate-200 bg-white p-5 lg:col-span-2">
-        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+    <section className="mt-4 grid gap-4 grid-cols-1">
+      <article className="rounded-2xl border border-slate-200 bg-white p-5 col-span-2">
+      <div className="flex items-center justify-between gap-2">
           <h2 className="text-base font-bold text-ink">Transações recentes</h2>
           <input
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm md:w-72"
+            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm w-72"
             placeholder="Buscar por descricao..."
             value={buscaDescricao}
             onChange={(e) => setBuscaDescricao(e.target.value)}
@@ -77,3 +77,4 @@ export default function DashboardTabelaStatus({
     </section>
   );
 }
+

@@ -255,14 +255,14 @@ export default function OrcamentosPage() {
 
   return (
     <main className="mx-auto max-w-7xl">
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
+      <section className="rounded-2xl border border-slate-200 bg-white p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
         <h1 className="mt-2 text-2xl font-black text-ink">Orcamentos</h1>
         <p className="mt-2 text-sm text-slate-600">
           Defina limites por categoria e acompanhe o consumo mensal com alertas de risco.
         </p>
 
-        <div className="mt-6 grid gap-3 md:grid-cols-5">
+        <div className="mt-6 grid gap-3 grid-cols-5">
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
             <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Ativos</p>
             <p className="mt-1 text-xl font-black text-ink">{resumo.ativos}</p>
@@ -339,9 +339,9 @@ export default function OrcamentosPage() {
               </button>
             </div>
 
-            <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 lg:grid-cols-3" : ""}`}>
+            <div className={`mt-4 ${mostrarFormulario ? "grid gap-4 grid-cols-3" : ""}`}>
               {mostrarFormulario ? (
-                <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
+                <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 col-span-1">
                   <h2 className="text-base font-bold text-ink">
                     {editandoId ? `Editar orcamento #${editandoId}` : "Novo orcamento"}
                   </h2>
@@ -428,7 +428,7 @@ export default function OrcamentosPage() {
                 </article>
               ) : null}
 
-              <article className="rounded-2xl border border-slate-200 bg-white p-4 lg:col-span-2">
+              <article className="rounded-2xl border border-slate-200 bg-white p-4 col-span-2">
                 <h2 className="text-base font-bold text-ink">Lista de orcamentos</h2>
                 <p className="mt-1 text-xs text-slate-500">Acompanhe consumo por categoria e ajuste limites.</p>
 
@@ -502,3 +502,4 @@ export default function OrcamentosPage() {
     </main>
   );
 }
+

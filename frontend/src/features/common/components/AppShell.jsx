@@ -79,9 +79,9 @@ export default function AppShell() {
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900">
-      <div className="mx-auto flex max-w-[1440px] gap-4 p-4 md:p-6">
+      <div className="mx-auto flex max-w-[1440px] gap-6 p-6">
         <aside
-          className={`hidden shrink-0 rounded-2xl bg-ink p-4 text-white lg:block ${
+          className={`shrink-0 rounded-2xl bg-ink p-4 text-white ${
             menuMinimizado ? "w-20" : "w-72"
           }`}
         >
@@ -143,37 +143,10 @@ export default function AppShell() {
         </aside>
 
         <section className="min-w-0 flex-1 rounded-2xl">
-          <div className="mb-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 lg:hidden">
-            <p className="text-sm font-semibold text-ink">Menu rápido</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {itensMenu.slice(0, 6).map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.to === "/"}
-                  className={({ isActive }) =>
-                    `rounded-md px-3 py-1.5 text-xs font-medium ${
-                      isActive ? "bg-ink text-white" : "bg-slate-100 text-slate-700"
-                    }`
-                  }
-                >
-                  <span className="mr-1 inline-flex align-middle">
-                    <IconeMenu nome={item.icone} className="h-3.5 w-3.5" />
-                  </span>
-                  {item.label}
-                </NavLink>
-              ))}
-              <button
-                onClick={encerrarSessao}
-                className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700"
-              >
-                Sair
-              </button>
-            </div>
-          </div>
           <Outlet />
         </section>
       </div>
     </div>
   );
 }
+

@@ -213,7 +213,7 @@ export default function TransacoesPage() {
 
   return (
     <main className="mx-auto max-w-7xl">
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8">
+      <section className="rounded-2xl border border-slate-200 bg-white p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-600">Modulo</p>
         <h1 className="mt-2 text-2xl font-black text-ink">Transações</h1>
         <p className="mt-2 text-sm text-slate-600">
@@ -243,7 +243,7 @@ export default function TransacoesPage() {
           </button>
         </div>
 
-        <div className={`mt-4 ${mostrarPainelEdicao ? "grid gap-4 lg:grid-cols-3" : ""}`}>
+        <div className={`mt-4 ${mostrarPainelEdicao ? "grid gap-4 grid-cols-3" : ""}`}>
           {mostrarPainelEdicao && editandoId ? (
             <TransacoesFormulario
               editandoId={editandoId}
@@ -257,7 +257,7 @@ export default function TransacoesPage() {
               onCancel={cancelarEdicao}
             />
           ) : mostrarPainelEdicao ? (
-            <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
+            <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 col-span-1">
               <h2 className="text-base font-bold text-ink">Edição de transação</h2>
               <p className="mt-2 text-sm text-slate-600">
                 Clique em "Editar" em uma transação da lista para carregar os dados neste painel.
@@ -291,3 +291,4 @@ export default function TransacoesPage() {
     </main>
   );
 }
+

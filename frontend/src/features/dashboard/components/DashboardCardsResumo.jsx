@@ -1,6 +1,6 @@
 export default function DashboardCardsResumo({ insights, previsao30Dias, formatoMoeda }) {
   return (
-    <section className="mt-4 grid gap-4 lg:grid-cols-2">
+    <section className="mt-4 grid gap-4 grid-cols-2">
       <article className="rounded-2xl border border-slate-200 bg-white p-5">
         <h2 className="text-base font-bold text-ink">Insights</h2>
         <ul className="mt-3 space-y-2 text-sm text-slate-700">
@@ -32,3 +32,4 @@ export default function DashboardCardsResumo({ insights, previsao30Dias, formato
     </section>
   );
 }
+

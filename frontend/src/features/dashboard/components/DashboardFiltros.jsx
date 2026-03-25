@@ -17,7 +17,7 @@ function tipoContaLabel(tipo) {
 export default function DashboardFiltros({ periodo, setPeriodo, filtroConta, setFiltroConta, contas }) {
   return (
     <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-3">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
           {OPCOES_PERIODO.map((item) => (
             <button
@@ -51,3 +51,4 @@ export default function DashboardFiltros({ periodo, setPeriodo, filtroConta, set
     </section>
   );
 }
+

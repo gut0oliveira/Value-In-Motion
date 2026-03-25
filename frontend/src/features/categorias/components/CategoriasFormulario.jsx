@@ -7,7 +7,7 @@ export default function CategoriasFormulario({
   onCancel,
 }) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 lg:col-span-1">
+    <article className="rounded-2xl border border-slate-200 bg-slate-50 p-4 col-span-1">
       <h2 className="text-base font-bold text-ink">{editandoId ? `Editar categoria #${editandoId}` : "Nova categoria"}</h2>
       <form className="mt-3 space-y-3" onSubmit={onSubmit}>
         <label className="block text-sm">
@@ -52,3 +52,4 @@ export default function CategoriasFormulario({
     </article>
   );
 }
+

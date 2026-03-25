@@ -5,7 +5,7 @@ const formatoMoeda = new Intl.NumberFormat("pt-BR", {
 
 export default function RecorrenciasResumo({ resumo }) {
   return (
-    <div className="mt-5 grid gap-3 md:grid-cols-4">
+    <div className="mt-5 grid gap-3 grid-cols-4">
       <article className="rounded-xl bg-slate-50 p-4">
         <p className="text-[11px] uppercase tracking-[0.12em] text-slate-500">Total</p>
         <p className="mt-1 text-xl font-black text-ink">{resumo.total}</p>
@@ -28,3 +28,4 @@ export default function RecorrenciasResumo({ resumo }) {
     </div>
   );
 }
+

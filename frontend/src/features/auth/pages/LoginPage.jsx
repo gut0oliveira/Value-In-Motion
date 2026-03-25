@@ -25,10 +25,10 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-4">
-      <section className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xl">
+    <main className="flex min-h-screen items-center justify-center p-8">
+      <section className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-10 shadow-xl">
         <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-600">Vimo</p>
-        <h1 className="mt-2 text-3xl font-black text-ink">Value in Motion</h1>
+        <h1 className="mt-2 text-4xl font-black text-ink">Value in Motion</h1>
         <p className="mt-1 text-sm text-slate-500">Entre para acessar seu painel financeiro.</p>
 
         <form className="mt-7 space-y-4" onSubmit={handleSubmit}>
