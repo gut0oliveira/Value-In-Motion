@@ -1,4 +1,6 @@
-from rest_framework import generics
+import django_filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -26,6 +28,33 @@ from ..serializers import (
     TransactionSerializer,
 )
 from ..services import remove_card_purchase_and_related_transactions
+
+
+class TransactionFilter(django_filters.FilterSet):
+    mes = django_filters.CharFilter(method="filter_mes", label="Mês (AAAA-MM)")
+    data_inicio = django_filters.DateFilter(field_name="occurred_on", lookup_expr="gte")
+    data_fim = django_filters.DateFilter(field_name="occurred_on", lookup_expr="lte")
+    tipo = django_filters.CharFilter(field_name="transaction_type")
+    categoria = django_filters.NumberFilter(field_name="category__id")
+    conta = django_filters.NumberFilter(field_name="account__id")
+    cartao = django_filters.NumberFilter(field_name="credit_card__id")
+
+    def filter_mes(self, queryset, name, value):
+        # Espera formato AAAA-MM, ex: 2025-03
+        try:
+            ano, mes = value.split("-")
+            return queryset.filter(
+                occurred_on__year=int(ano),
+                occurred_on__month=int(mes),
+            )
+        except (ValueError, AttributeError):
+            return queryset
+
+    class Meta:
+        model = __import__(
+            "apps.finance.models", fromlist=["Transaction"]
+        ).Transaction
+        fields = ["tipo", "categoria", "conta", "cartao"]
 
 
 @api_view(["GET"])
@@ -69,6 +98,10 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class TransactionListCreateView(generics.ListCreateAPIView):
     serializer_class = TransactionSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = TransactionFilter
+    ordering_fields = ["occurred_on", "amount", "created_at"]
+    ordering = ["-occurred_on"]
 
     def get_queryset(self):
         return get_transactions_queryset(self.request.user)

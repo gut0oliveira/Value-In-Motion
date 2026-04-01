@@ -4,127 +4,102 @@ import { login, register } from "../../../lib/api";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [username, setUsername] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form, setForm] = useState({
+    firstName: "", lastName: "", username: "", email: "", password: "", confirmPassword: "",
+  });
+  const [erro, setErro] = useState("");
+  const [enviando, setEnviando] = useState(false);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setError("");
+  function atualizar(campo) {
+    return (e) => setForm((f) => ({ ...f, [campo]: e.target.value }));
+  }
 
-    if (password !== confirmPassword) {
-      setError("As senhas nao conferem.");
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setErro("");
+    if (form.password !== form.confirmPassword) {
+      setErro("As senhas não conferem.");
       return;
     }
-
-    setIsSubmitting(true);
+    setEnviando(true);
     try {
-      await register({ first_name: firstName, username, last_name: lastName, email, password });
-      await login(username, password, lastName);
+      await register({
+        first_name: form.firstName,
+        last_name: form.lastName,
+        username: form.username,
+        email: form.email,
+        password: form.password,
+      });
+      await login(form.username, form.password, form.lastName);
       navigate("/", { replace: true });
     } catch (err) {
-      setError(err.message);
+      setErro(err.message);
     } finally {
-      setIsSubmitting(false);
+      setEnviando(false);
     }
   }
 
+  const campos = [
+    { label: "Usuário", campo: "username", type: "text", placeholder: "seu_usuario" },
+    { label: "Primeiro nome", campo: "firstName", type: "text", placeholder: "João" },
+    { label: "Último nome", campo: "lastName", type: "text", placeholder: "Silva" },
+    { label: "E-mail", campo: "email", type: "email", placeholder: "joao@email.com" },
+    { label: "Senha", campo: "password", type: "password", placeholder: "••••••••" },
+    { label: "Confirmar senha", campo: "confirmPassword", type: "password", placeholder: "••••••••" },
+  ];
+
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <section className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-10 shadow-xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-600">Vimo</p>
-        <h1 className="mt-2 text-4xl font-black text-ink">Criar conta</h1>
-        <p className="mt-1 text-sm text-slate-500">Cadastre-se para iniciar seu painel financeiro.</p>
+    <main className="flex min-h-screen items-center justify-center p-6">
+      <div className="w-full max-w-md">
+        <div className="rounded-2xl bg-white border border-slate-200 shadow-xl p-8">
+          <div className="mb-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-green-600">VIMO</p>
+            <h1 className="mt-1 text-3xl font-black text-ink">Criar conta</h1>
+            <p className="mt-1 text-sm text-slate-500">Cadastre-se para iniciar seu painel financeiro.</p>
+          </div>
 
-        <form className="mt-7 space-y-4" onSubmit={handleSubmit}>
-          <label className="block text-sm font-medium text-slate-700">
-            Usuário
-            <input
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </label>
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            {campos.map(({ label, campo, type, placeholder }) => (
+              <div key={campo}>
+                <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
+                <input
+                  type={type}
+                  value={form[campo]}
+                  onChange={atualizar(campo)}
+                  placeholder={placeholder}
+                  required
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-500/20"
+                />
+              </div>
+            ))}
 
-          <label className="block text-sm font-medium text-slate-700">
-            Primeiro nome
-            <input
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-            />
-          </label>
+            {erro && (
+              <div className="flex items-center gap-2 rounded-xl bg-red-50 border border-red-100 px-3 py-2.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-red-500 shrink-0">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <p className="text-sm text-red-700">{erro}</p>
+              </div>
+            )}
 
+            <button
+              type="submit"
+              disabled={enviando}
+              className="w-full rounded-xl bg-mint py-2.5 text-sm font-semibold text-white transition hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {enviando ? "Cadastrando..." : "Criar conta"}
+            </button>
+          </form>
 
-          <label className="block text-sm font-medium text-slate-700">
-            Último nome
-            <input
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-            />
-          </label>
-
-          <label className="block text-sm font-medium text-slate-700">
-            E-mail
-            <input
-              type="email"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </label>
-
-          <label className="block text-sm font-medium text-slate-700">
-            Senha
-            <input
-              type="password"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
-
-          <label className="block text-sm font-medium text-slate-700">
-            Confirmar senha
-            <input
-              type="password"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </label>
-
-          {error ? <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-lg bg-mint px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isSubmitting ? "Cadastrando..." : "Criar conta"}
-          </button>
-        </form>
-
-        <p className="mt-5 text-center text-sm text-slate-600">
-          Ja tem conta?{" "}
-          <Link to="/login" className="font-semibold text-sky-700 hover:underline">
-            Entrar
-          </Link>
-        </p>
-      </section>
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Já tem conta?{" "}
+            <Link to="/login" className="font-semibold text-green-700 hover:underline">
+              Entrar
+            </Link>
+          </p>
+        </div>
+      </div>
     </main>
   );
 }
-

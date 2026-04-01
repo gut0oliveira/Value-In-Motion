@@ -6,74 +6,87 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [erro, setErro] = useState("");
+  const [enviando, setEnviando] = useState(false);
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setError("");
-    setIsSubmitting(true);
-
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setErro("");
+    setEnviando(true);
     try {
       await login(username, password);
       navigate("/", { replace: true });
     } catch (err) {
-      setError(err.message);
+      setErro(err.message);
     } finally {
-      setIsSubmitting(false);
+      setEnviando(false);
     }
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <section className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-10 shadow-xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-600">Vimo</p>
-        <h1 className="mt-2 text-4xl font-black text-ink">Value in Motion</h1>
-        <p className="mt-1 text-sm text-slate-500">Entre para acessar seu painel financeiro.</p>
+    <main className="flex min-h-screen items-center justify-center p-6">
+      <div className="w-full max-w-md">
 
-        <form className="mt-7 space-y-4" onSubmit={handleSubmit}>
-          <label className="block text-sm font-medium text-slate-700">
-            Usuario
-            <input
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Seu usuário"
-              required
-            />
-          </label>
+        {/* Card */}
+        <div className="rounded-2xl bg-white border border-slate-200 shadow-xl p-8">
+          <div className="mb-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-green-600">VIMO</p>
+            <h1 className="mt-1 text-3xl font-black text-ink">Bem-vindo de volta</h1>
+            <p className="mt-1 text-sm text-slate-500">Entre para acessar seu painel financeiro.</p>
+          </div>
 
-          <label className="block text-sm font-medium text-slate-700">
-            Senha
-            <input
-              type="password"
-              className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-mint/30 transition focus:border-mint focus:ring"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Sua senha"
-              required
-            />
-          </label>
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Usuário</label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="seu_usuario"
+                required
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-500/20"
+              />
+            </div>
 
-          {error ? <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-1">Senha</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-500/20"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-lg bg-mint px-4 py-2 text-sm font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isSubmitting ? "Entrando..." : "Entrar"}
-          </button>
-        </form>
+            {erro && (
+              <div className="flex items-center gap-2 rounded-xl bg-red-50 border border-red-100 px-3 py-2.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-red-500 shrink-0">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <p className="text-sm text-red-700">{erro}</p>
+              </div>
+            )}
 
-        <p className="mt-5 text-center text-sm text-slate-600">
-          Ainda nao tem conta?{" "}
-          <Link to="/register" className="font-semibold text-sky-700 hover:underline">
-            Cadastre-se
-          </Link>
-        </p>
-      </section>
+            <button
+              type="submit"
+              disabled={enviando}
+              className="w-full rounded-xl bg-mint py-2.5 text-sm font-semibold text-white transition hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {enviando ? "Entrando..." : "Entrar"}
+            </button>
+          </form>
+
+          <p className="mt-6 text-center text-sm text-slate-500">
+            Ainda não tem conta?{" "}
+            <Link to="/register" className="font-semibold text-green-700 hover:underline">
+              Cadastre-se
+            </Link>
+          </p>
+        </div>
+      </div>
     </main>
   );
 }
-

@@ -7,7 +7,10 @@ import {
   saveUsername,
 } from "./auth";
 
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://127.0.0.1:8000";
+
+const ROTAS_PUBLICAS = ["/api/auth/token/", "/api/usuarios/cadastro/"];
+
 let refreshPromise = null;
 
 function normalizarParTokens(data) {
@@ -28,7 +31,7 @@ async function garantirRefreshToken() {
 }
 
 async function requisicao(caminho, opcoes = {}, tentouRefresh = false) {
-  const precisaAuth = caminho.startsWith("/api/financas/") || caminho === "/api/usuarios/eu/";
+  const precisaAuth = !ROTAS_PUBLICAS.some((r) => caminho.startsWith(r));
 
   if (precisaAuth && !tentouRefresh && isAccessTokenExpired() && getRefreshToken()) {
     const refreshed = await garantirRefreshToken();
@@ -140,65 +143,61 @@ export function logout() {
 export const fazerLogin = login;
 export const sair = logout;
 
-export const buscarCartoes = () => requisicao("/api/financas/cartoes/");
-export const criarCartao = (p) => requisicao("/api/financas/cartoes/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarCartao = (id, p) =>
-  requisicao(`/api/financas/cartoes/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
-export const excluirCartao = (id) => requisicao(`/api/financas/cartoes/${id}/`, { method: "DELETE" });
-
-export const buscarParcelamentosCartao = () => requisicao("/api/financas/parcelamentos/");
-export const criarParcelamentoCartao = (p) =>
-  requisicao("/api/financas/parcelamentos/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarParcelamentoCartao = (id, p) =>
-  requisicao(`/api/financas/parcelamentos/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
-export const excluirParcelamentoCartao = (id) =>
-  requisicao(`/api/financas/parcelamentos/${id}/`, { method: "DELETE" });
-
+// Contas
 export const buscarContas = () => requisicao("/api/financas/contas/");
 export const criarConta = (p) => requisicao("/api/financas/contas/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarConta = (id, p) =>
-  requisicao(`/api/financas/contas/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const atualizarConta = (id, p) => requisicao(`/api/financas/contas/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
 export const excluirConta = (id) => requisicao(`/api/financas/contas/${id}/`, { method: "DELETE" });
 
+// Cartões
+export const buscarCartoes = () => requisicao("/api/financas/cartoes/");
+export const criarCartao = (p) => requisicao("/api/financas/cartoes/", { method: "POST", body: JSON.stringify(p) });
+export const atualizarCartao = (id, p) => requisicao(`/api/financas/cartoes/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const excluirCartao = (id) => requisicao(`/api/financas/cartoes/${id}/`, { method: "DELETE" });
+
+// Parcelamentos
+export const buscarParcelamentosCartao = () => requisicao("/api/financas/parcelamentos/");
+export const criarParcelamentoCartao = (p) => requisicao("/api/financas/parcelamentos/", { method: "POST", body: JSON.stringify(p) });
+export const atualizarParcelamentoCartao = (id, p) => requisicao(`/api/financas/parcelamentos/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const excluirParcelamentoCartao = (id) => requisicao(`/api/financas/parcelamentos/${id}/`, { method: "DELETE" });
+
+// Categorias
 export const buscarCategorias = () => requisicao("/api/financas/categorias/");
-export const criarCategoria = (p) =>
-  requisicao("/api/financas/categorias/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarCategoria = (id, p) =>
-  requisicao(`/api/financas/categorias/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const criarCategoria = (p) => requisicao("/api/financas/categorias/", { method: "POST", body: JSON.stringify(p) });
+export const atualizarCategoria = (id, p) => requisicao(`/api/financas/categorias/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
 export const excluirCategoria = (id) => requisicao(`/api/financas/categorias/${id}/`, { method: "DELETE" });
 
-export const buscarTransacoes = () => requisicao("/api/financas/transacoes/");
-export const criarTransacao = (p) =>
-  requisicao("/api/financas/transacoes/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarTransacao = (id, p) =>
-  requisicao(`/api/financas/transacoes/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+// Transações — agora com filtros e paginação
+export const buscarTransacoes = (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+  return requisicao(`/api/financas/transacoes/${query ? "?" + query : ""}`);
+};
+export const criarTransacao = (p) => requisicao("/api/financas/transacoes/", { method: "POST", body: JSON.stringify(p) });
+export const atualizarTransacao = (id, p) => requisicao(`/api/financas/transacoes/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
 export const excluirTransacao = (id) => requisicao(`/api/financas/transacoes/${id}/`, { method: "DELETE" });
 
+// Metas
 export const buscarMetas = () => requisicao("/api/financas/metas/");
 export const criarMeta = (p) => requisicao("/api/financas/metas/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarMeta = (id, p) =>
-  requisicao(`/api/financas/metas/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const atualizarMeta = (id, p) => requisicao(`/api/financas/metas/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
 export const excluirMeta = (id) => requisicao(`/api/financas/metas/${id}/`, { method: "DELETE" });
 
+// Orçamentos
 export const buscarOrcamentos = () => requisicao("/api/financas/orcamentos/");
-export const criarOrcamento = (p) =>
-  requisicao("/api/financas/orcamentos/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarOrcamento = (id, p) =>
-  requisicao(`/api/financas/orcamentos/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const criarOrcamento = (p) => requisicao("/api/financas/orcamentos/", { method: "POST", body: JSON.stringify(p) });
+export const atualizarOrcamento = (id, p) => requisicao(`/api/financas/orcamentos/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
 export const excluirOrcamento = (id) => requisicao(`/api/financas/orcamentos/${id}/`, { method: "DELETE" });
 
+// Recorrências
 export const buscarRecorrencias = () => requisicao("/api/financas/recorrencias/");
-export const criarRecorrencia = (p) =>
-  requisicao("/api/financas/recorrencias/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarRecorrencia = (id, p) =>
-  requisicao(`/api/financas/recorrencias/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const criarRecorrencia = (p) => requisicao("/api/financas/recorrencias/", { method: "POST", body: JSON.stringify(p) });
+export const atualizarRecorrencia = (id, p) => requisicao(`/api/financas/recorrencias/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
 export const excluirRecorrencia = (id) => requisicao(`/api/financas/recorrencias/${id}/`, { method: "DELETE" });
 
+// Investimentos
 export const buscarInvestimentos = () => requisicao("/api/financas/investimentos/");
-export const criarInvestimento = (p) =>
-  requisicao("/api/financas/investimentos/", { method: "POST", body: JSON.stringify(p) });
-export const atualizarInvestimento = (id, p) =>
-  requisicao(`/api/financas/investimentos/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
+export const criarInvestimento = (p) => requisicao("/api/financas/investimentos/", { method: "POST", body: JSON.stringify(p) });
+export const atualizarInvestimento = (id, p) => requisicao(`/api/financas/investimentos/${id}/`, { method: "PATCH", body: JSON.stringify(p) });
 export const excluirInvestimento = (id) => requisicao(`/api/financas/investimentos/${id}/`, { method: "DELETE" });
 
 export const buscarVisaoFinancas = () => requisicao("/api/financas/");

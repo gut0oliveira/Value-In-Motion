@@ -14,9 +14,19 @@ class Account(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def balance(self):
+        from django.db.models import Sum
+        receitas = self.transactions.filter(
+            transaction_type="income"
+        ).aggregate(t=Sum("amount"))["t"] or 0
+        despesas = self.transactions.filter(
+            transaction_type="expense"
+        ).aggregate(t=Sum("amount"))["t"] or 0
+        return receitas - despesas
+
     def __str__(self):
         return self.name
-
 
 class Category(models.Model):
     TRANSACTION_TYPE_CHOICES = (
@@ -30,6 +40,8 @@ class Category(models.Model):
         choices=TRANSACTION_TYPE_CHOICES,
         default="expense",
     )
+    icon = models.CharField(max_length=10, blank=True, default="📦")
+    color = models.CharField(max_length=7, blank=True, default="#6366f1")
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

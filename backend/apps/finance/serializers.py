@@ -38,10 +38,12 @@ def _due_date_for_installment(purchase_date, closing_day, due_day, installment_i
 
 
 class AccountSerializer(serializers.ModelSerializer):
+    balance = serializers.DecimalField(max_digits=12, decimal_places=2, read_only=True)
+
     class Meta:
         model = Account
-        fields = ("id", "name", "account_type", "owner", "created_at", "updated_at")
-        read_only_fields = ("id", "owner", "created_at", "updated_at")
+        fields = ("id", "name", "account_type", "balance", "owner", "created_at", "updated_at")
+        read_only_fields = ("id", "owner", "balance", "created_at", "updated_at")
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -51,6 +53,8 @@ class CategorySerializer(serializers.ModelSerializer):
             "id",
             "name",
             "transaction_type",
+            "icon",
+            "color",
             "owner",
             "created_at",
             "updated_at",

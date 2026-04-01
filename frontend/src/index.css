@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
 :root {
-  font-family: "Segoe UI", "Inter", sans-serif;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
   color: #0f172a;
   background: radial-gradient(circle at top left, #d9f99d 0%, #f8fafc 32%, #e2e8f0 100%);
 }
